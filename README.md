@@ -1,7 +1,8 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A challenge i've faced since coming to UCSB is figuring out what classes I should be taking. On one side, I want classes that would let me fulfill multiple requirements at once, allowing me to graduate on time or earlier. I would also want to take classes that fit best with my scheduling needs.
+
+Our application would allow students to intuitvely choose the best schedule for their needs through visualization, suggestions, and organization.
 
 # Team Members
 
