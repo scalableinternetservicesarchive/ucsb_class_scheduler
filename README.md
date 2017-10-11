@@ -22,3 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+# Team Members
+
+## [Håvard Anda Estensen](https://github.com/estensen)
+
+<img width="300" height="300" src="https://user-images.githubusercontent.com/9142800/31416791-55126e9e-ade0-11e7-8577-e4d0b03b4fc7.jpg">
