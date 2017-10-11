@@ -1,4 +1,6 @@
-# README
+# UCSB Class Scheduler
+
+![Travis Build](https://travis-ci.org/scalableinternetservices/ucsb_class_scheduler.svg?branch=master)
 
 A challenge i've faced since coming to UCSB is figuring out what classes I should be taking. On one side, I want classes that would let me fulfill multiple requirements at once, allowing me to graduate on time or earlier. I would also want to take classes that fit best with my scheduling needs.
 
