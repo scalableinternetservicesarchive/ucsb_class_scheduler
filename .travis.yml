@@ -5,6 +5,11 @@ cache: bundler
 
 rvm:
   - 2.4.0
+
+install: bundle install
+
+script:
+  - bundle exec rubocop
   
 notifications:
   email: false
