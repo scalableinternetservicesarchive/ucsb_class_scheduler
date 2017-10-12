@@ -6,14 +6,18 @@ A challenge i've faced since coming to UCSB is figuring out what classes I shoul
 
 Our application would allow students to intuitvely choose the best schedule for their needs through visualization, suggestions, and organization.
 
+# Coding Standards
+	- You cannot push to master
+		- At least one other person must approve your pull request before it gets merged
+	- Linting standards: Rubocop
+	- Create branches for features
+	- Commit messages should explain what your commit actually does rather than just saying "Update README.md"
+
 # Team Members
 
 ## [Danny Cho](https://github.com/dannycho7)
 
 <img width="300" height="450" src="https://user-images.githubusercontent.com/15878248/31421797-57622ff4-adfe-11e7-95f3-40f1e1c527f9.jpg">
-
-
-
 
 ## [Håvard Anda Estensen](https://github.com/estensen)
 
