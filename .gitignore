@@ -26,3 +26,10 @@
 .idea/
 *.DS_Store
 out/
+
+# ignore create-react-app stuff
+public/manifest.json
+public/asset-manifest.json
+public/service-worker.js
+public/static/
+public/index.html
