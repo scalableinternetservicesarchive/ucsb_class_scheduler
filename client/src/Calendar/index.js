@@ -26,7 +26,7 @@ export default class Calendar extends Component {
        max.setMinutes(0, 0, 0);
 
     return (
-      <div>
+      <div style={{width: 600}}>
         <BigCalendar
           {...this.props}
           events={this.state.events}
@@ -36,6 +36,7 @@ export default class Calendar extends Component {
           timeslots={4}
           min={min}
           max={max}
+          selectable
         />
       </div>
     );
