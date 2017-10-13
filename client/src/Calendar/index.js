@@ -17,11 +17,25 @@ export default class Calendar extends Component {
   }
 
   render() {
+    const min = new Date();
+       min.setHours(8);
+       min.setMinutes(0, 0, 0);
+
+    const max = new Date();
+       max.setHours(20);
+       max.setMinutes(0, 0, 0);
+
     return (
       <div>
         <BigCalendar
+          {...this.props}
           events={this.state.events}
           defaultView="week"
+          views={{ week: true }}
+          step={15}
+          timeslots={4}
+          min={min}
+          max={max}
         />
       </div>
     );
