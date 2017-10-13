@@ -26,8 +26,3 @@ Our application would allow students to intuitvely choose the best schedule for 
 ## [Even Skari](https://github.com/evenskari)
 
 <img width="300" height="300" src="https://avatars2.githubusercontent.com/u/11603089">
-
-## [Zimu Yang](https://github.com/Niffery)
-
-<img width="300" height="300" src="https://user-images.githubusercontent.com/26055040/31419466-e3651132-adf0-11e7-92d1-5648bcc4e7da.png">
-
