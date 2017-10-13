@@ -31,6 +31,7 @@ export default class Calendar extends Component {
           {...this.props}
           events={this.state.events}
           defaultView="week"
+          defaultDate={new Date(2017, 10, 29)}
           views={{ week: true }}
           step={15}
           timeslots={4}
