@@ -5,3 +5,9 @@ Rails:
 
 AllCops:
   TargetRubyVersion: 2.4
+
+Layout/Tab:
+  Enabled: false
+
+Layout/IndentationWidth:
+  Enabled: false
