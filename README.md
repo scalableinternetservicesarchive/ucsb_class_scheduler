@@ -2,9 +2,9 @@
 
 ![Travis Build](https://travis-ci.org/scalableinternetservices/ucsb_class_scheduler.svg?branch=master)
 
-A challenge i've faced since coming to UCSB is figuring out what classes I should be taking. On one side, I want classes that would let me fulfill multiple requirements at once, allowing me to graduate on time or earlier. I would also want to take classes that fit best with my scheduling needs.
+A challenge we've faced since coming to UCSB is figuring out what classes we should be taking. On one side, we want classes that fulfills multiple requirements at once, allowing us to graduate on time or earlier. We would also want to take classes that fit best with our scheduling needs.
 
-Our application would allow students to intuitvely choose the best schedule for their needs through visualization, suggestions, and organization.
+Our application would allow students to intuitively choose the best schedule for their needs through visualization, suggestions, and organization.
 
 # Coding Standards
 	- You cannot push to master
