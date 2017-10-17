@@ -11,6 +11,10 @@ class Results extends Component {
   render() {
     const { results } = this.props;
 
+    if(!results || results.length === 0) {
+      return "No results found";
+    }
+
     return (
       <Paper>
         <Table>
