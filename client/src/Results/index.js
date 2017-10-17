@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Results extends Component {
   constructor(props) {
@@ -16,28 +15,26 @@ class Results extends Component {
     }
 
     return (
-      <Paper>
-        <Table>
-          <TableHead>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderColumn>Name</TableHeaderColumn>
+            <TableHeaderColumn>Times</TableHeaderColumn>
+            <TableHeaderColumn>Options</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {results.map((result) => (
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Times</TableCell>
-              <TableCell>Options</TableCell>
+              <TableRowColumn>{result.name}</TableRowColumn>
+              <TableRowColumn>{result.times}</TableRowColumn>
+              <TableRowColumn>
+                <RaisedButton raised color="accent">Add</RaisedButton>
+              </TableRowColumn>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {results.map((result) => (
-                <TableRow>
-                  <TableCell>{result.name}</TableCell>
-                  <TableCell>{result.times}</TableCell>
-                  <TableCell>
-                    <Button raised color="accent">Add</Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </Paper>
+          ))}
+        </TableBody>
+      </Table>
     );
   }
 }
