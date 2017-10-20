@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Search from "./Search";
 import Calendar from "./Calendar";
 import Results from "./Results";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class App extends Component {
   constructor(props) {
@@ -10,11 +11,13 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Calendar />
-        <Search />
-        <Results />
-      </div>
+      <MuiThemeProvider>
+        <div>
+          <Calendar />
+          <Search />
+          <Results results={results} />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
