@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
+import Result from "./Result";
 
 class Results extends Component {
   constructor(props) {
@@ -24,15 +24,7 @@ class Results extends Component {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {results.map((result) => (
-            <TableRow>
-              <TableRowColumn>{result.name}</TableRowColumn>
-              <TableRowColumn>{result.times}</TableRowColumn>
-              <TableRowColumn>
-                <RaisedButton label="Add" primary />
-              </TableRowColumn>
-            </TableRow>
-          ))}
+          {results.map((result) => ( <Result {...result} key={result.name}/> ))}
         </TableBody>
       </Table>
     );
