@@ -29,7 +29,7 @@ class Results extends Component {
               <TableRowColumn>{result.name}</TableRowColumn>
               <TableRowColumn>{result.times}</TableRowColumn>
               <TableRowColumn>
-                <RaisedButton raised color="accent">Add</RaisedButton>
+                <RaisedButton label="Add" primary />
               </TableRowColumn>
             </TableRow>
           ))}
