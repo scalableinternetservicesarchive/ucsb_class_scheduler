@@ -25,6 +25,18 @@ export default class Calendar extends Component {
        max.setHours(20);
        max.setMinutes(0, 0, 0);
 
+    const saveEvent = slotInfo => {
+      const newEvent = {
+        title: "Busy",
+        start: slotInfo.start,
+        end: slotInfo.end,
+      }
+      console.log("Event selected");
+      this.setState(prevState => ({
+        events: [...prevState.events, newEvent]
+      }))
+    }
+
     return (
       <div style={{width: 600}}>
         <BigCalendar
@@ -38,10 +50,7 @@ export default class Calendar extends Component {
           min={min}
           max={max}
           selectable
-          onSelectSlot={(slotInfo) => alert(
-            `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-            `\nend: ${slotInfo.end.toLocaleString()}`
-          )}
+          onSelectSlot={(slotInfo) => saveEvent(slotInfo)}
         />
       </div>
     );
