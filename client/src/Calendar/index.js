@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
-
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 BigCalendar.momentLocalizer(moment);
+const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
-export default class Calendar extends Component {
+class Calendar extends Component {
   constructor(props) {
     super(props)
     this.state = { events: [] };
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
+    this.moveEvent = this.moveEvent.bind(this)
+  }
+
+  moveEvent({ event, start, end }) {
+    const { events } = this.state;
+
+    const idx = events.indexOf(event);
+    const updatedEvent = { ...event, start, end };
+
+    const nextEvents = [...events]
+    nextEvents.splice(idx, 1, updatedEvent)
+
+    this.setState({
+      events: nextEvents
+    })
   }
 
   render() {
@@ -38,7 +56,7 @@ export default class Calendar extends Component {
 
     return (
       <div style={{width: 600}}>
-        <BigCalendar
+        <DragAndDropCalendar
           {...this.props}
           events={this.state.events}
           defaultView="week"
@@ -50,8 +68,11 @@ export default class Calendar extends Component {
           max={max}
           selectable
           onSelectSlot={(slotInfo) => saveEvent(slotInfo)}
+          onEventDrop={this.moveEvent}
         />
       </div>
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(Calendar)
