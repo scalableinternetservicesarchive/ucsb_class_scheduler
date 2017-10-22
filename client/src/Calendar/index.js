@@ -10,7 +10,7 @@ BigCalendar.momentLocalizer(moment);
 export default class Calendar extends Component {
   constructor(props) {
     super(props)
-    this.state = { events: events };
+    this.state = { events: [] };
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
