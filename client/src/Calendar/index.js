@@ -38,6 +38,10 @@ export default class Calendar extends Component {
           min={min}
           max={max}
           selectable
+          onSelectSlot={(slotInfo) => alert(
+            `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+            `\nend: ${slotInfo.end.toLocaleString()}`
+          )}
         />
       </div>
     );
