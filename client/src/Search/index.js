@@ -1,24 +1,38 @@
 import React, { Component } from "react";
 import SearchBar from "material-ui-search-bar";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class Search extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      term: ""
+    };
+  }
+
+  onChange = (term) => {
+    this.setState({ term });
+  }
+
+  onRequestSearch = () => {
+    this.props.onSubmit(this.state.term);
   }
 
   render() {
+    const { term } = this.state;
+
     return (
-      <MuiThemeProvider>
-        <SearchBar
-          onChange={() => console.log('onChange')}
-          onRequestSearch={() => console.log('onRequestSearch')}
-          style={{
-            margin: '0 auto',
-            maxWidth: 800
-          }}
-        />
-      </MuiThemeProvider>
+      <SearchBar
+        onChange={this.onChange}
+        onRequestSearch={this.onRequestSearch}
+        style={{
+          margin: "0 auto",
+          marginBottom: "10px",
+          marginTop: "15px",
+          maxWidth: 800
+        }}
+        value={term}
+      />
     );
   }
 }
