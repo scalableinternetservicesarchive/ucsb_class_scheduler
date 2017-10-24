@@ -11,11 +11,9 @@ class App extends Component {
     this.state = {
       term: ""
     };
-
-    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
-  onSearchSubmit(term) {
+  onSearchSubmit = (term) => {
     this.setState({ term });
   }
 

@@ -8,16 +8,13 @@ class Search extends Component {
     this.state = {
       term: ""
     };
-
-    this.onChange = this.onChange.bind(this);
-    this.onRequestSearch = this.onRequestSearch.bind(this);
   }
 
-  onChange(term) {
+  onChange = (term) => {
     this.setState({ term });
   }
 
-  onRequestSearch() {
+  onRequestSearch = () => {
     this.props.onSubmit(this.state.term);
   }
 
