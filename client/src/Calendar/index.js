@@ -39,10 +39,14 @@ class Calendar extends Component {
   }
 
   deleteDialog = () => {
-    console.log("Delete event");
+    console.log("Delete event dialog");
     this.setState(prevState => ({
       deleteDialogOpen: !prevState.deleteDialogOpen
     }));
+  }
+
+  deleteEvent = () => {
+    console.log("Event deleted");
   }
 
   render() {
@@ -82,7 +86,7 @@ class Calendar extends Component {
           onSelectSlot={slotInfo => saveEvent(slotInfo)}
           onEventDrop={this.moveEvent}
         />
-        {this.state.deleteDialogOpen ? <ConfirmDeleteDialog /> : "Not open"}
+        {this.state.deleteDialogOpen ? <ConfirmDeleteDialog onDelete={() => this.deleteEvent()} /> : <div />}
       </div>
     );
   }
