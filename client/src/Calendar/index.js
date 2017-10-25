@@ -6,13 +6,18 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import ConfirmDeleteDialog from '../ConfirmDeleteDialog';
+
 BigCalendar.momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 class Calendar extends Component {
   constructor(props) {
     super(props)
-    this.state = { events: [] };
+    this.state = {
+      events: [],
+      deleteDialogOpen: false
+    };
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
@@ -33,6 +38,13 @@ class Calendar extends Component {
     })
   }
 
+  deleteDialog = () => {
+    console.log("Delete event");
+    this.setState(prevState => ({
+      deleteDialogOpen: !prevState.deleteDialogOpen
+    }));
+  }
+
   render() {
     const min = new Date();
        min.setHours(8);
@@ -48,7 +60,6 @@ class Calendar extends Component {
         start: slotInfo.start,
         end: slotInfo.end,
       }
-      console.log("Event selected");
       this.setState(prevState => ({
         events: [...prevState.events, newEvent]
       }))
@@ -67,9 +78,11 @@ class Calendar extends Component {
           min={min}
           max={max}
           selectable
-          onSelectSlot={(slotInfo) => saveEvent(slotInfo)}
+          onSelectEvent={this.deleteDialog}
+          onSelectSlot={slotInfo => saveEvent(slotInfo)}
           onEventDrop={this.moveEvent}
         />
+        {this.state.deleteDialogOpen ? <ConfirmDeleteDialog /> : "Not open"}
       </div>
     );
   }
