@@ -1,12 +1,5 @@
-FROM ruby:2.4.0
-LABEL maintainer="haavard.ae@gmail.com"
+FROM node:latest
 
-ENV APP_ROOT /app
-ENV BUNDLE_PATH /bundle
+WORKDIR /app
 
-RUN apt-get update -qq && \
-    apt-get install -y build-essential libpq-dev nodejs
-
-ADD . $APP_ROOT
-WORKDIR $APP_ROOT
-
+CMD ["node"]
