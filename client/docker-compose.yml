@@ -1,0 +1,30 @@
+version: "3"
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=rails_docker_database
+  backend:
+    build: .
+    command: rails s --binding=0.0.0.0
+    entrypoint: ./script/backend_entrypoint.sh
+    links:
+      - db
+      - frontend
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+      - frontend
+  frontend:
+    build: ./client
+    command: yarn start
+    entrypoint: ./scripts/frontend_entrypoint.sh
+    volumes:
+      - ./client:/app
+    environment:
+      NODE_ENV: development
