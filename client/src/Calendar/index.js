@@ -24,6 +24,12 @@ class Calendar extends Component {
     this.moveEvent = this.moveEvent.bind(this)
   }
 
+  addEvent = (event) => {
+    this.setState({
+      events: [...this.state.events, event]
+    })
+  }
+
   moveEvent({ event, start, end }) {
     const { events } = this.state;
 
@@ -94,7 +100,9 @@ class Calendar extends Component {
           onSelectSlot={slotInfo => saveEvent(slotInfo)}
           onEventDrop={this.moveEvent}
         />
-        {this.state.deleteDialogOpen ? <ConfirmDeleteDialog onDelete={() => this.deleteEvent()} /> : <div />}
+        {this.state.deleteDialogOpen
+          ? <ConfirmDeleteDialog onDelete={() => this.deleteEvent()} />
+          : <div />}
       </div>
     );
   }
