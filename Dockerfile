@@ -1,15 +1,29 @@
 FROM ruby:2.4.0
 LABEL maintainer="haavard.ae@gmail.com"
 
-ENV APP_ROOT /app
-ENV BUNDLE_PATH /bundle
+# install psql client utility
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client-9.4
 
-RUN apt-get update -qq && \
-    apt-get install -y build-essential libpq-dev nodejs
+ENV APP_HOME /app
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
 
-COPY Gemfile* /app/
-WORKDIR /app
+# skip installing gem documentation
+RUN echo 'gem: --no-rdoc --no-ri' >> "$HOME/.gemrc"
 
-RUN bundle install
+RUN gem install bundler
 
-CMD ["rails", "s"]
+# ADD Gemfile $APP_HOME/Gemfile
+# ADD Gemfile.lock $APP_HOME/Gemfile.lock
+
+# ENV RAILS_ENV=production
+
+# RUN bundle install
+
+ADD . $APP_HOME
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Boot the server
+# CMD bundle exec puma -C config/puma.rb
