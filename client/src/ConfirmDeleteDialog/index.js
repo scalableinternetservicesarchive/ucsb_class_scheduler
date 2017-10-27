@@ -12,9 +12,13 @@ export default class ConfirmDeleteDialog extends React.Component {
   };
 
   handleClose = () => {
-    this.props.onDelete()
     this.setState({open: false});
   };
+
+  handleDelete = () => {
+    this.props.onDelete()
+    this.handleClose()
+  }
 
   render() {
     const actions = [
@@ -27,7 +31,7 @@ export default class ConfirmDeleteDialog extends React.Component {
         label="Yes"
         primary={true}
         keyboardFocused={true}
-        onClick={this.handleClose}
+        onClick={this.handleDelete}
       />,
     ];
 

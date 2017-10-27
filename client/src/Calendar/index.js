@@ -38,15 +38,23 @@ class Calendar extends Component {
     })
   }
 
-  deleteDialog = () => {
-    console.log("Delete event dialog");
+  deleteDialog = (event) => {
     this.setState(prevState => ({
       deleteDialogOpen: !prevState.deleteDialogOpen
     }));
   }
 
-  deleteEvent = () => {
-    console.log("Event deleted");
+  deleteEvent = (event) => {
+    const { events } = this.state;
+
+    const idx = events.indexOf(event);
+    
+    const nextEvents = [...events]
+    nextEvents.splice(idx, 1)
+
+    this.setState({
+      events: nextEvents
+    })
   }
 
   render() {
@@ -82,7 +90,7 @@ class Calendar extends Component {
           min={min}
           max={max}
           selectable
-          onSelectEvent={this.deleteDialog}
+          onSelectEvent={event => this.deleteDialog(event)}
           onSelectSlot={slotInfo => saveEvent(slotInfo)}
           onEventDrop={this.moveEvent}
         />
