@@ -27,14 +27,14 @@ class Calendar extends Component {
   moveEvent({ event, start, end }) {
     const { events } = this.state;
 
-    const idx = events.indexOf(event);
+    const index = events.indexOf(event);
     const updatedEvent = { ...event, start, end };
 
-    const nextEvents = [...events]
-    nextEvents.splice(idx, 1, updatedEvent)
+    const updatedEvents = [...events]
+    updatedEvents.splice(index, 1, updatedEvent)
 
     this.setState({
-      events: nextEvents
+      events: updatedEvents
     })
   }
 
@@ -47,13 +47,13 @@ class Calendar extends Component {
   deleteEvent = (event) => {
     const { events } = this.state;
 
-    const idx = events.indexOf(event);
-    
-    const nextEvents = [...events]
-    nextEvents.splice(idx, 1)
+    const index = events.indexOf(event);
+
+    const updatedEvents = [...events]
+    updatedEvents.splice(index, 1)
 
     this.setState({
-      events: nextEvents
+      events: updatedEvents
     })
   }
 
