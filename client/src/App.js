@@ -9,8 +9,13 @@ class App extends Component {
     super(props);
 
     this.state = {
-      term: ""
+      term: "",
+      newEvent: "",
     };
+  }
+
+  addCalendarEvent = (newEvent) => {
+    this.setState({ newEvent })
   }
 
   onSearchSubmit = (term) => {
@@ -29,12 +34,12 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Calendar />
+          <Calendar addEvent={this.state.newEvent}/>
           <Search onSubmit={this.onSearchSubmit} />
           <Results
             filterTerm={term}
             results={results}
-            addEvent={() => this.addCalendarEvent}
+            addEvent={() => this.addCalendarEvent()}
           />
         </div>
       </MuiThemeProvider>

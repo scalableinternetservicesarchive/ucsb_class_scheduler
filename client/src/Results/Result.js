@@ -2,12 +2,12 @@ import React from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const courseToEvent = () =>
+const courseToEvent = () => {
 	return "newEvent"
+}
 
 const addCourseToCalendar = (course) => {
-	event = courseToEvent(course)
-	this.props.addCourseToCalendar(event)
+	this.props.addCourseToCalendar(courseToEvent(course))
 }
 
 const Result = ({ name, times}) => (

@@ -30,6 +30,12 @@ class Calendar extends Component {
     })
   }
 
+  componentWillRecieveProps(newEvent) {
+    if (!this.state.events.include(newEvent)) {
+      this.addEvent(newEvent)
+    }
+  }
+
   moveEvent({ event, start, end }) {
     const { events } = this.state;
 

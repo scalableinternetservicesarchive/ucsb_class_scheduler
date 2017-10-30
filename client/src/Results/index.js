@@ -32,7 +32,7 @@ class Results extends Component {
             {...result}
             key={result.name}
             addCourseToCalendar={() => this.addCourseToCalendar}
-          />))}
+          />)}
         </TableBody>
       </Table>
     );
