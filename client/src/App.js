@@ -31,7 +31,11 @@ class App extends Component {
         <div>
           <Calendar />
           <Search onSubmit={this.onSearchSubmit} />
-          <Results filterTerm={term} results={results} />
+          <Results
+            filterTerm={term}
+            results={results}
+            addEvent={() => this.addCalendarEvent}
+          />
         </div>
       </MuiThemeProvider>
     );
