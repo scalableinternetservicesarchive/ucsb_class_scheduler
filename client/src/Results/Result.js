@@ -10,7 +10,7 @@ const addCourseToCalendar = (course) => {
 	this.props.addCourseToCalendar(courseToEvent(course))
 }
 
-const Result = ({ name, times}) => (
+const Result = ({ name, times, addCourseToCalendar}) => (
 	<TableRow>
 		<TableRowColumn>{name}</TableRowColumn>
 		<TableRowColumn>{times}</TableRowColumn>
