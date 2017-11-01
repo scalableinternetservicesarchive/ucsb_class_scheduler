@@ -6,13 +6,18 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import ConfirmDeleteDialog from '../ConfirmDeleteDialog';
+
 BigCalendar.momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 class Calendar extends Component {
   constructor(props) {
     super(props)
-    this.state = { events: [] };
+    this.state = {
+      events: [],
+      deleteDialogOpen: false
+    };
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
@@ -22,14 +27,33 @@ class Calendar extends Component {
   moveEvent({ event, start, end }) {
     const { events } = this.state;
 
-    const idx = events.indexOf(event);
+    const index = events.indexOf(event);
     const updatedEvent = { ...event, start, end };
 
-    const nextEvents = [...events]
-    nextEvents.splice(idx, 1, updatedEvent)
+    const updatedEvents = [...events]
+    updatedEvents.splice(index, 1, updatedEvent)
 
     this.setState({
-      events: nextEvents
+      events: updatedEvents
+    })
+  }
+
+  deleteDialog = (event) => {
+    this.setState(prevState => ({
+      deleteDialogOpen: !prevState.deleteDialogOpen
+    }));
+  }
+
+  deleteEvent = (event) => {
+    const { events } = this.state;
+
+    const index = events.indexOf(event);
+
+    const updatedEvents = [...events]
+    updatedEvents.splice(index, 1)
+
+    this.setState({
+      events: updatedEvents
     })
   }
 
@@ -48,7 +72,6 @@ class Calendar extends Component {
         start: slotInfo.start,
         end: slotInfo.end,
       }
-      console.log("Event selected");
       this.setState(prevState => ({
         events: [...prevState.events, newEvent]
       }))
@@ -67,9 +90,11 @@ class Calendar extends Component {
           min={min}
           max={max}
           selectable
-          onSelectSlot={(slotInfo) => saveEvent(slotInfo)}
+          onSelectEvent={event => this.deleteDialog(event)}
+          onSelectSlot={slotInfo => saveEvent(slotInfo)}
           onEventDrop={this.moveEvent}
         />
+        {this.state.deleteDialogOpen ? <ConfirmDeleteDialog onDelete={() => this.deleteEvent()} /> : <div />}
       </div>
     );
   }
