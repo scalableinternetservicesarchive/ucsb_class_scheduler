@@ -10,12 +10,41 @@ class App extends Component {
 
     this.state = {
       term: "",
-      newEvent: "",
+      events: [],
     };
   }
 
-  addCalendarEvent = (newEvent) => {
-    this.setState({ newEvent })
+  addEvent = (newEvent) => {
+    this.setState({
+      events: [...this.state.events, newEvent]
+    })
+  }
+
+  moveEvent = ({ event, start, end }) => {
+    const { events } = this.state;
+
+    const index = events.indexOf(event);
+    const updatedEvent = { ...event, start, end };
+
+    const updatedEvents = [...events]
+    updatedEvents.splice(index, 1, updatedEvent)
+
+    this.setState({
+      events: updatedEvents
+    })
+  }
+
+  deleteEvent = (event) => {
+    const { events } = this.state;
+
+    const index = events.indexOf(event);
+
+    const updatedEvents = [...events]
+    updatedEvents.splice(index, 1)
+
+    this.setState({
+      events: updatedEvents
+    })
   }
 
   onSearchSubmit = (term) => {
@@ -34,12 +63,17 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Calendar addEvent={this.state.newEvent}/>
+          <Calendar
+            events={this.state.events}
+            addEvent={this.addEvent}
+            moveEvent={this.moveEvent}
+            deleteEvent={this.deleteEvent}
+          />
           <Search onSubmit={this.onSearchSubmit} />
           <Results
             filterTerm={term}
             results={results}
-            addEvent={() => this.addCalendarEvent()}
+            addEvent={() => this.addEvent()}
           />
         </div>
       </MuiThemeProvider>

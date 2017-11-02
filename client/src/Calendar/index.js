@@ -15,13 +15,11 @@ class Calendar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      events: [],
       deleteDialogOpen: false
     };
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
-    this.moveEvent = this.moveEvent.bind(this)
   }
 
   addEvent = (event) => {
@@ -36,37 +34,10 @@ class Calendar extends Component {
     }
   }
 
-  moveEvent({ event, start, end }) {
-    const { events } = this.state;
-
-    const index = events.indexOf(event);
-    const updatedEvent = { ...event, start, end };
-
-    const updatedEvents = [...events]
-    updatedEvents.splice(index, 1, updatedEvent)
-
-    this.setState({
-      events: updatedEvents
-    })
-  }
-
   deleteDialog = (event) => {
     this.setState(prevState => ({
       deleteDialogOpen: !prevState.deleteDialogOpen
     }));
-  }
-
-  deleteEvent = (event) => {
-    const { events } = this.state;
-
-    const index = events.indexOf(event);
-
-    const updatedEvents = [...events]
-    updatedEvents.splice(index, 1)
-
-    this.setState({
-      events: updatedEvents
-    })
   }
 
   render() {
@@ -84,16 +55,13 @@ class Calendar extends Component {
         start: slotInfo.start,
         end: slotInfo.end,
       }
-      this.setState(prevState => ({
-        events: [...prevState.events, newEvent]
-      }))
+      this.props.addEvent(newEvent)
     }
 
     return (
       <div style={{width: 600}}>
         <DragAndDropCalendar
           {...this.props}
-          events={this.state.events}
           defaultView="week"
           defaultDate={new Date()}
           views={{ week: true }}
@@ -104,10 +72,10 @@ class Calendar extends Component {
           selectable
           onSelectEvent={event => this.deleteDialog(event)}
           onSelectSlot={slotInfo => saveEvent(slotInfo)}
-          onEventDrop={this.moveEvent}
+          onEventDrop={this.props.moveEvent}
         />
         {this.state.deleteDialogOpen
-          ? <ConfirmDeleteDialog onDelete={() => this.deleteEvent()} />
+          ? <ConfirmDeleteDialog onDelete={this.props.deleteEvent} />
           : <div />}
       </div>
     );
