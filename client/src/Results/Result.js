@@ -4,12 +4,52 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const Result = ({ name, times, addEvent}) => {
 
-	let getCourseStart = (times) => {
+	let getDayIndex = (day) => {
+		let day_index
 
+		switch (day) {
+			case 'M':
+				day_index = 1
+				break
+			case 'T':
+				day_index = 2
+				break
+			case 'W':
+				day_index = 3
+				break
+			case 'R':
+				day_index = 4
+				break
+			case 'F':
+				day_index = 5
+				break
+			default:
+				console.log("Not valid date format");
+		}
+		return day_index
+	}
+
+	let getCourseStart = (times) => {
+		let times_list = times.split(" ")
+		let day = times_list[0]
+		console.log("Day", day);
+		let day_index = getDayIndex(day)
+
+		let startTime = new Date("May 1, 2017")
+		startTime.setDate(day_index)
+
+		return startTime
 	}
 
 	let getCourseEnd = (times) => {
+		let times_list = times.split(" ")
+		let day = times_list[0]
+		let day_index = getDayIndex(day)
 
+		let startTime = new Date("May 1, 2017")
+		startTime.setDate(day_index)
+
+		return startTime
 	}
 
 	let courseToEvent = (name, times) => {
