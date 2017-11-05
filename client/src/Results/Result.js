@@ -29,16 +29,13 @@ const Result = ({ name, times, addEvent}) => {
 		return day_index
 	}
 
-	let getCourseStart = (times) => {
-		let times_list = times.split(" ")
-
-		let day = times_list[0]
+	let getCourseStart = (day, hours) => {
 		let day_index = getDayIndex(day)
 
-		let hours = times_list[2].split(":")
-		let hour = hours[0]
-		let minutes = hours[1]
-		let fromPeriod = times_list[3]
+		let hours_list = hours[0].split(":")
+		let hour = hours_list[0]
+		let minutes = hours_list[1]
+		let fromPeriod = hours[1]
 		if (fromPeriod === "p.m") {
 			hour = Number(hour) + 12
 		}
@@ -51,16 +48,13 @@ const Result = ({ name, times, addEvent}) => {
 		return startTime
 	}
 
-	let getCourseEnd = (times) => {
-		let times_list = times.split(" ")
-
-		let day = times_list[0]
+	let getCourseEnd = (day, hours) => {
 		let day_index = getDayIndex(day)
 
-		let hours = times_list[5].split(":")
-		let hour = hours[0]
-		let minutes = hours[1]
-		let fromPeriod = times_list[6]
+		let hours_list = hours[3].split(":")
+		let hour = hours_list[0]
+		let minutes = hours_list[1]
+		let fromPeriod = hours[4]
 		if (fromPeriod === "p.m") {
 			hour = Number(hour) + 12
 		}
@@ -73,7 +67,7 @@ const Result = ({ name, times, addEvent}) => {
 		return endTime
 	}
 
-	let courseToEvent = (name, times) => {
+	let courseToEvent = (name, day, hours) => {
 		/*
 		end: Thu Nov 02 2017 19:00:00 GMT-0700 (PDT)
 		start: Thu Nov 02 2017 17:00:00 GMT-0700 (PDT)
@@ -81,17 +75,33 @@ const Result = ({ name, times, addEvent}) => {
 		*/
 		let newEvent = {}
 		newEvent.title = name
-		newEvent.start = getCourseStart(times)
-		newEvent.end = getCourseEnd(times)
+		newEvent.start = getCourseStart(day, hours)
+		newEvent.end = getCourseEnd(day, hours)
 		return newEvent
 	}
 
 	let addCourseToCalendar = (name, times) => {
-		console.log("Add new course");
-		let newEvent = courseToEvent(name, times)
-		console.log("newEvent", newEvent);
-		addEvent(newEvent)
+		let times_list = times.split(" ")
+
+		let hours_index
+		for (let i = 0; i < times_list.length; i++) {
+			if (Number.isInteger(Number.parseInt(times_list[i][0], 10))) {
+				hours_index = i
+				break
+			}
+		}
+
+		let hours = times_list.slice(hours_index)
+
+		let newEvents = []
+		for (let i = 0; i < hours_index; i++) {
+			let day = times_list[i]
+			let newEvent = courseToEvent(name, day, hours)
+			newEvents.push(newEvent)
+		}
+		addEvent(newEvents)
 	}
+
 	return (
 		<TableRow>
 			<TableRowColumn>{name}</TableRowColumn>

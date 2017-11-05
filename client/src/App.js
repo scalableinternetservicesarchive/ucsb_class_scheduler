@@ -14,11 +14,9 @@ class App extends Component {
     };
   }
 
-  addEvent = (newEvent) => {
-    console.log("Event added");
-    console.log(newEvent);
+  addEvent = newEvents => {
     this.setState({
-      events: [...this.state.events, newEvent]
+      events: [...this.state.events, ...newEvents]
     })
   }
 
