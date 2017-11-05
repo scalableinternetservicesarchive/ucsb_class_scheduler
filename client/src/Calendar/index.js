@@ -63,7 +63,7 @@ class Calendar extends Component {
         <DragAndDropCalendar
           {...this.props}
           defaultView="week"
-          defaultDate={new Date()}
+          defaultDate={new Date("May 1, 2017")}
           views={{ week: true }}
           step={15}
           timeslots={4}
