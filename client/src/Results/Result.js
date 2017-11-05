@@ -31,25 +31,46 @@ const Result = ({ name, times, addEvent}) => {
 
 	let getCourseStart = (times) => {
 		let times_list = times.split(" ")
+
 		let day = times_list[0]
-		console.log("Day", day);
 		let day_index = getDayIndex(day)
+
+		let hours = times_list[2].split(":")
+		let hour = hours[0]
+		let minutes = hours[1]
+		let fromPeriod = times_list[3]
+		if (fromPeriod === "p.m") {
+			hour = Number(hour) + 12
+		}
 
 		let startTime = new Date("May 1, 2017")
 		startTime.setDate(day_index)
+		startTime.setHours(hour)
+		startTime.setMinutes(minutes)
 
 		return startTime
 	}
 
 	let getCourseEnd = (times) => {
 		let times_list = times.split(" ")
+
 		let day = times_list[0]
 		let day_index = getDayIndex(day)
 
-		let startTime = new Date("May 1, 2017")
-		startTime.setDate(day_index)
+		let hours = times_list[5].split(":")
+		let hour = hours[0]
+		let minutes = hours[1]
+		let fromPeriod = times_list[6]
+		if (fromPeriod === "p.m") {
+			hour = Number(hour) + 12
+		}
 
-		return startTime
+		let endTime = new Date("May 1, 2017")
+		endTime.setDate(day_index)
+		endTime.setHours(hour)
+		endTime.setMinutes(minutes)
+
+		return endTime
 	}
 
 	let courseToEvent = (name, times) => {
@@ -58,7 +79,7 @@ const Result = ({ name, times, addEvent}) => {
 		start: Thu Nov 02 2017 17:00:00 GMT-0700 (PDT)
 		title: "Busy"
 		*/
-		let newEvent = new Object()
+		let newEvent = {}
 		newEvent.title = name
 		newEvent.start = getCourseStart(times)
 		newEvent.end = getCourseEnd(times)
@@ -68,6 +89,7 @@ const Result = ({ name, times, addEvent}) => {
 	let addCourseToCalendar = (name, times) => {
 		console.log("Add new course");
 		let newEvent = courseToEvent(name, times)
+		console.log("newEvent", newEvent);
 		addEvent(newEvent)
 	}
 	return (
@@ -78,7 +100,7 @@ const Result = ({ name, times, addEvent}) => {
 				<RaisedButton
 					label="Add"
 					primary
-					onClick={addCourseToCalendar(name, times)}
+					onClick={() => addCourseToCalendar(name, times)}
 				/>
 			</TableRowColumn>
 		</TableRow>
