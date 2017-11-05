@@ -55,7 +55,7 @@ class Calendar extends Component {
         start: slotInfo.start,
         end: slotInfo.end,
       }
-      this.props.addEvent(newEvent)
+      this.props.addEvent([newEvent])
     }
 
     return (
