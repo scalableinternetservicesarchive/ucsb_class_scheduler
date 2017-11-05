@@ -73,7 +73,7 @@ class App extends Component {
           <Results
             filterTerm={term}
             results={results}
-            addEvent={() => this.addEvent()}
+            addEvent={this.addEvent}
           />
         </div>
       </MuiThemeProvider>

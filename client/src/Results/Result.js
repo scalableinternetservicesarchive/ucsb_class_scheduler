@@ -2,22 +2,25 @@ import React from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const courseToEvent = () => {
-	return "newEvent"
-}
+const Result = ({ name, times, addEvent}) => {
+	let courseToEvent = () => {
+		// Return event object
+		return "newEvent"
+	}
 
-const addCourseToCalendar = (course) => {
-	this.props.addCourseToCalendar(courseToEvent(course))
+	let addCourseToCalendar = () => {
+		console.log("Add new course");
+		addEvent("course")
+	}
+	return (
+		<TableRow>
+			<TableRowColumn>{name}</TableRowColumn>
+			<TableRowColumn>{times}</TableRowColumn>
+			<TableRowColumn>
+				<RaisedButton label="Add" primary onClick={addCourseToCalendar} />
+			</TableRowColumn>
+		</TableRow>
+	);
 }
-
-const Result = ({ name, times, addCourseToCalendar}) => (
-	<TableRow>
-		<TableRowColumn>{name}</TableRowColumn>
-		<TableRowColumn>{times}</TableRowColumn>
-		<TableRowColumn>
-			<RaisedButton label="Add" primary onClick={addCourseToCalendar(name)} />
-		</TableRowColumn>
-	</TableRow>
-);
 
 export default Result;

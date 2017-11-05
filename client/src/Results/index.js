@@ -7,10 +7,6 @@ class Results extends Component {
     super(props);
   }
 
-  addCourseToCalendar = (event) => {
-    this.props.addEvent(event)
-  }
-
   render() {
     const { results } = this.props;
 
@@ -31,7 +27,7 @@ class Results extends Component {
           {results.map((result) => <Result
             {...result}
             key={result.name}
-            addCourseToCalendar={() => this.addCourseToCalendar}
+            addEvent={() => this.props.addEvent}
           />)}
         </TableBody>
       </Table>
