@@ -7,7 +7,6 @@ class CourseController < ApplicationController
 		SQL
 
 		@courses = ActiveRecord::Base.connection.execute(find_courses_sql)
-		
 		render json: @courses
 	end
 
