@@ -1,6 +1,13 @@
 class CourseController < ApplicationController
 	def all
-		@courses = Course.all
+		find_courses_sql = <<-SQL
+			SELECT courses.*, COALESCE(SUM(likes.amount), 0) as likes
+			FROM courses LEFT JOIN likes ON likes.course_id = courses.id
+			GROUP BY courses.id;
+		SQL
+
+		@courses = ActiveRecord::Base.connection.execute(find_courses_sql)
+		
 		render json: @courses
 	end
 
