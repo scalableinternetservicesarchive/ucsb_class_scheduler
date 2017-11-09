@@ -15,27 +15,31 @@ class Calendar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      events: [],
       deleteDialogOpen: false
     };
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
-    this.moveEvent = this.moveEvent.bind(this)
+
+    this.minHour = new Date();
+       this.minHour.setHours(8);
+       this.minHour.setMinutes(0, 0, 0);
+
+    this.maxHour = new Date();
+       this.maxHour.setHours(20);
+       this.maxHour.setMinutes(0, 0, 0);
   }
 
-  moveEvent({ event, start, end }) {
-    const { events } = this.state;
-
-    const index = events.indexOf(event);
-    const updatedEvent = { ...event, start, end };
-
-    const updatedEvents = [...events]
-    updatedEvents.splice(index, 1, updatedEvent)
-
+  addEvent = (event) => {
     this.setState({
-      events: updatedEvents
+      events: [...this.state.events, event]
     })
+  }
+
+  componentWillRecieveProps(newEvent) {
+    if (!this.state.events.include(newEvent)) {
+      this.addEvent(newEvent)
+    }
   }
 
   deleteDialog = (event) => {
@@ -44,57 +48,36 @@ class Calendar extends Component {
     }));
   }
 
-  deleteEvent = (event) => {
-    const { events } = this.state;
-
-    const index = events.indexOf(event);
-
-    const updatedEvents = [...events]
-    updatedEvents.splice(index, 1)
-
-    this.setState({
-      events: updatedEvents
-    })
+  saveEvent = slotInfo => {
+    const { addEvent } = this.props
+    const newEvent = {
+      title: "Busy",
+      start: slotInfo.start,
+      end: slotInfo.end,
+    }
+    addEvent([newEvent])
   }
 
   render() {
-    const min = new Date();
-       min.setHours(8);
-       min.setMinutes(0, 0, 0);
-
-    const max = new Date();
-       max.setHours(20);
-       max.setMinutes(0, 0, 0);
-
-    const saveEvent = slotInfo => {
-      const newEvent = {
-        title: "Busy",
-        start: slotInfo.start,
-        end: slotInfo.end,
-      }
-      this.setState(prevState => ({
-        events: [...prevState.events, newEvent]
-      }))
-    }
-
     return (
       <div style={{width: 600}}>
         <DragAndDropCalendar
           {...this.props}
-          events={this.state.events}
           defaultView="week"
-          defaultDate={new Date()}
+          defaultDate={new Date("May 1, 2017")}
           views={{ week: true }}
           step={15}
           timeslots={4}
-          min={min}
-          max={max}
+          min={this.minHour}
+          max={this.maxHour}
           selectable
-          onSelectEvent={event => this.deleteDialog(event)}
-          onSelectSlot={slotInfo => saveEvent(slotInfo)}
-          onEventDrop={this.moveEvent}
+          onSelectEvent={this.deleteDialog}
+          onSelectSlot={this.saveEvent}
+          onEventDrop={this.props.moveEvent}
         />
-        {this.state.deleteDialogOpen ? <ConfirmDeleteDialog onDelete={() => this.deleteEvent()} /> : <div />}
+        {this.state.deleteDialogOpen
+          ? <ConfirmDeleteDialog onDelete={this.props.deleteEvent} />
+          : <div />}
       </div>
     );
   }

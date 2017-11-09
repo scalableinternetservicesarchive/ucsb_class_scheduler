@@ -24,7 +24,11 @@ class Results extends Component {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {results.map((result) => ( <Result {...result} key={result.name}/> ))}
+          {results.map((result) => <Result
+            {...result}
+            key={result.name}
+            addEvent={this.props.addEvent}
+          />)}
         </TableBody>
       </Table>
     );
