@@ -20,6 +20,14 @@ class Calendar extends Component {
     BigCalendar.setLocalizer(
       BigCalendar.momentLocalizer(moment)
     );
+
+    this.minHour = new Date();
+       this.minHour.setHours(8);
+       this.minHour.setMinutes(0, 0, 0);
+
+    this.maxHour = new Date();
+       this.maxHour.setHours(20);
+       this.maxHour.setMinutes(0, 0, 0);
   }
 
   addEvent = (event) => {
@@ -40,24 +48,17 @@ class Calendar extends Component {
     }));
   }
 
-  render() {
-    const min = new Date();
-       min.setHours(8);
-       min.setMinutes(0, 0, 0);
-
-    const max = new Date();
-       max.setHours(20);
-       max.setMinutes(0, 0, 0);
-
-    const saveEvent = slotInfo => {
-      const newEvent = {
-        title: "Busy",
-        start: slotInfo.start,
-        end: slotInfo.end,
-      }
-      this.props.addEvent([newEvent])
+  saveEvent = slotInfo => {
+    const { addEvent } = this.props
+    const newEvent = {
+      title: "Busy",
+      start: slotInfo.start,
+      end: slotInfo.end,
     }
+    addEvent([newEvent])
+  }
 
+  render() {
     return (
       <div style={{width: 600}}>
         <DragAndDropCalendar
@@ -67,11 +68,11 @@ class Calendar extends Component {
           views={{ week: true }}
           step={15}
           timeslots={4}
-          min={min}
-          max={max}
+          min={this.minHour}
+          max={this.maxHour}
           selectable
-          onSelectEvent={event => this.deleteDialog(event)}
-          onSelectSlot={slotInfo => saveEvent(slotInfo)}
+          onSelectEvent={this.deleteDialog}
+          onSelectSlot={this.saveEvent}
           onEventDrop={this.props.moveEvent}
         />
         {this.state.deleteDialogOpen
