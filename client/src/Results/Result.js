@@ -2,7 +2,7 @@ import React from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const Result = ({ name, times, addEvent}) => {
+const Result = ({ name, times, likes, addEvent}) => {
 
 	let getDayIndex = (day) => {
 		let day_index
@@ -99,6 +99,7 @@ const Result = ({ name, times, addEvent}) => {
 		<TableRow>
 			<TableRowColumn>{name}</TableRowColumn>
 			<TableRowColumn>{times}</TableRowColumn>
+			<TableRowColumn>{likes}</TableRowColumn>
 			<TableRowColumn>
 				<RaisedButton
 					label="Add"

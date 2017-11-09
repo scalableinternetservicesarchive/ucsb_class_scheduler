@@ -57,9 +57,9 @@ class App extends Component {
     const { term } = this.state;
 
     let results = [
-      { name: "CMPSC 40", times: "M W 2:00 p.m - 3:15 p.m" },
-      { name: "CMPSC 56", times: "T R 9:30 a.m - 10:45 a.m" },
-      { name: "CMPSC 130A", times: "M W 9:30 a.m - 10:45 a.m" }
+      { name: "CMPSC 40", times: "M W 2:00 p.m - 3:15 p.m", likes: 4 },
+      { name: "CMPSC 56", times: "T R 9:30 a.m - 10:45 a.m", likes: 19 },
+      { name: "CMPSC 130A", times: "M W 9:30 a.m - 10:45 a.m", likes: 45 }
     ];
 
     return (

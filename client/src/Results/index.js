@@ -20,6 +20,7 @@ class Results extends Component {
           <TableRow>
             <TableHeaderColumn>Name</TableHeaderColumn>
             <TableHeaderColumn>Times</TableHeaderColumn>
+            <TableHeaderColumn>Likes</TableHeaderColumn>
             <TableHeaderColumn>Options</TableHeaderColumn>
           </TableRow>
         </TableHeader>
