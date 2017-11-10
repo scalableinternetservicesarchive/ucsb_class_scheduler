@@ -13,7 +13,21 @@ class App extends Component {
     this.state = {
       term: "",
       events: [],
+      courses: [],
     };
+  }
+
+  componentDidMount() {
+    let url = '/course/all'
+    fetch(url)
+      .then(res => {
+        this.setState({
+          courses: [...res.data]
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   addEvent = newEvents => {
@@ -74,7 +88,7 @@ class App extends Component {
           <Search onSubmit={this.onSearchSubmit} />
           <Results
             filterTerm={term}
-            results={results}
+            results={this.state.courses}
             addEvent={this.addEvent}
           />
         </div>
