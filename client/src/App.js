@@ -21,8 +21,12 @@ class App extends Component {
     let url = '/course/all'
     fetch(url)
       .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        console.log(data);
         this.setState({
-          courses: [...res.data]
+          courses: [...data]
         })
       })
       .catch(err => {
@@ -88,7 +92,7 @@ class App extends Component {
           <Search onSubmit={this.onSearchSubmit} />
           <Results
             filterTerm={term}
-            results={this.state.courses}
+            results={results}
             addEvent={this.addEvent}
           />
         </div>
