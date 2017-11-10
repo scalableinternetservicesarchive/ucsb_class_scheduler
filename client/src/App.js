@@ -24,9 +24,17 @@ class App extends Component {
         return res.json()
       })
       .then(data => {
-        console.log(data);
+        let courses = data.map(course => {
+          // The API is giving us more than we want, but still not the field needed
+          // Want: course.name, course.timeslots, course.likes
+          let filteredCourse = {
+            "name": course.dept,
+            "likes": course.likes
+          }
+          return filteredCourse
+        })
         this.setState({
-          courses: [...data]
+          courses: [...courses]
         })
       })
       .catch(err => {
@@ -92,7 +100,7 @@ class App extends Component {
           <Search onSubmit={this.onSearchSubmit} />
           <Results
             filterTerm={term}
-            results={results}
+            results={this.state.courses}
             addEvent={this.addEvent}
           />
         </div>
