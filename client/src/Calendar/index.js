@@ -36,12 +36,6 @@ class Calendar extends Component {
     })
   }
 
-  componentWillRecieveProps(newEvent) {
-    if (!this.state.events.include(newEvent)) {
-      this.addEvent(newEvent)
-    }
-  }
-
   deleteDialog = (event) => {
     this.setState(prevState => ({
       deleteDialogOpen: !prevState.deleteDialogOpen
