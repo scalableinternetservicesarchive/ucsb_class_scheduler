@@ -2,6 +2,7 @@ import React from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import ActionThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 const Result = ({ name, times, likes, addEvent}) => {
 
@@ -108,7 +109,7 @@ const Result = ({ name, times, likes, addEvent}) => {
 					onClick={() => addCourseToCalendar(name, times)}
 				/>
 				<FlatButton
-					label="Like"
+					icon={<ActionThumbUp />}
 				/>
 			</TableRowColumn>
 		</TableRow>
