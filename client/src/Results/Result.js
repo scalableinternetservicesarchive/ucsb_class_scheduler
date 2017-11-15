@@ -1,6 +1,7 @@
 import React from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 
 const Result = ({ name, times, likes, addEvent}) => {
 
@@ -105,6 +106,9 @@ const Result = ({ name, times, likes, addEvent}) => {
 					label="Add"
 					primary
 					onClick={() => addCourseToCalendar(name, times)}
+				/>
+				<FlatButton
+					label="Like"
 				/>
 			</TableRowColumn>
 		</TableRow>
