@@ -29,6 +29,7 @@ class App extends Component {
           // Want: course.name, course.timeslots, course.likes
           let filteredCourse = {
             "name": course.dept,
+            "id": course.id,
             "likes": course.likes
           }
           return filteredCourse
