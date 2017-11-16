@@ -3,7 +3,8 @@ class CourseController < ApplicationController
 		find_courses_sql = <<-SQL
 			SELECT courses.*, COALESCE(SUM(likes.amount), 0) as likes
 			FROM courses LEFT JOIN likes ON likes.course_id = courses.id
-			GROUP BY courses.id;
+			GROUP BY courses.id
+			LIMIT 100;
 		SQL
 
 		@courses = ActiveRecord::Base.connection.execute(find_courses_sql)
