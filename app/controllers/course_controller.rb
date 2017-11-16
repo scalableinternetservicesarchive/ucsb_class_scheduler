@@ -16,4 +16,15 @@ class CourseController < ApplicationController
 		@like.save!
 		render json: @like
 	end
+
+	def comment
+		course = Course.find(params[:id])
+		user = User.first # hardcode user for now
+		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content])
+
+		render json: @comment
+
+	rescue ActiveRecord::RecordNotFound
+		render json: { status: "failed" }
+	end
 end
