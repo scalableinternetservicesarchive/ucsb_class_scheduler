@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114041958) do
+ActiveRecord::Schema.define(version: 20171116014733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content", default: "", null: false
+    t.bigint "user_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_comments_on_course_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "dept"
@@ -59,6 +69,8 @@ ActiveRecord::Schema.define(version: 20171114041958) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comments", "courses"
+  add_foreign_key "comments", "users"
   add_foreign_key "courses", "instructors"
   add_foreign_key "likes", "courses"
   add_foreign_key "likes", "users"
