@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	post 'comment/:id/reply', to: 'comment#reply'
 
 	get 'course/all', to: 'course#all'
+	get 'course/preview', to: 'course#preview'
 	get 'course/:id', to: 'course#show'
 	post 'course/:id/like', to: 'course#like'
 	post 'course/:id/comment', to: 'course#comment'
