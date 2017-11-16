@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 	post 'course/:id/like', to: 'course#like'
 	post 'course/:id/comment', to: 'course#comment'
 
+	resource :user, only: [:create]
+
 	get '*path', to: 'application#fallback_index_html', constraints: lambda { |request|
 		!request.xhr? && request.format.html?
 	}
