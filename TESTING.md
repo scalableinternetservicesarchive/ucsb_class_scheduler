@@ -2,7 +2,7 @@
 
 With a working database you are now ready to start local testing. Before testing, run 
 ```
-bundle install
+yarn install
 ```
 Then open two terminal consoles. 
 
