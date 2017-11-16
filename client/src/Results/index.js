@@ -29,6 +29,7 @@ class Results extends Component {
             {...result}
             key={result.id}
             addEvent={this.props.addEvent}
+            likeCourse={this.props.likeCourse}
           />)}
         </TableBody>
       </Table>

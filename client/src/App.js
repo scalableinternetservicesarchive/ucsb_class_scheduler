@@ -28,7 +28,7 @@ class App extends Component {
           // The API is giving us more than we want, but still not the field needed
           // Want: course.name, course.timeslots, course.likes
           let filteredCourse = {
-            "name": course.dept,
+            "name": course.name,
             "id": course.id,
             "likes": course.likes
           }
@@ -80,6 +80,22 @@ class App extends Component {
     this.setState({ term });
   }
 
+  likeCourse = courseId => {
+    console.log("Like btn pressed");
+    // Update state
+    const { courses } = this.state;
+    const index = courses.findIndex(course => courseId === course.id)
+    const course = courses.index
+    const updatedCourses = [...courses, courses[index].likes += 1]
+
+    this.setState({
+      courses: updatedCourses
+    })
+    console.log("Like state updated");
+    // POST like
+    // GET likes
+  }
+
   render() {
     const { term } = this.state;
 
@@ -103,6 +119,7 @@ class App extends Component {
             filterTerm={term}
             results={this.state.courses}
             addEvent={this.addEvent}
+            likeCourse={this.likeCourse}
           />
         </div>
       </MuiThemeProvider>

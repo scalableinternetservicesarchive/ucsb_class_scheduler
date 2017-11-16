@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import ActionThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
-const Result = ({ name, times, likes, addEvent}) => {
+const Result = ({ name, id, times, likes, addEvent, likeCourse}) => {
 
 	let getDayIndex = (day) => {
 		let day_index
@@ -110,6 +110,7 @@ const Result = ({ name, times, likes, addEvent}) => {
 				/>
 				<FlatButton
 					icon={<ActionThumbUp />}
+					onClick={() => likeCourse(id)}
 				/>
 			</TableRowColumn>
 		</TableRow>
