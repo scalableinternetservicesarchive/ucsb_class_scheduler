@@ -1,4 +1,6 @@
 class CourseController < ApplicationController
+	before_action :authenticate_user, only: [:like, :comment]
+
 	def all
 		find_courses_sql = <<-SQL
 			SELECT courses.*, COALESCE(SUM(likes.amount), 0) as likes
@@ -11,7 +13,7 @@ class CourseController < ApplicationController
 	end
 
 	def like
-		@like = Like.find_or_create_by(user: User.first, course_id: params[:id])
+		@like = Like.find_or_create_by(user: current_user, course_id: params[:id])
 		@like.amount += 1
 		@like.save!
 		render json: @like
@@ -19,7 +21,7 @@ class CourseController < ApplicationController
 
 	def comment
 		course = Course.find(params[:id])
-		user = User.first # hardcode user for now
+		user = current_user
 		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content])
 
 		render json: @comment
