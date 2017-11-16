@@ -18,8 +18,14 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.getCourses()
+  }
+
+  getCourses = () => {
     let url = '/course/all'
-    fetch(url)
+    fetch(url, {
+      method: 'GET'
+    })
       .then(res => {
         return res.json()
       })
@@ -92,8 +98,15 @@ class App extends Component {
       courses: updatedCourses
     })
     console.log("Like state updated");
+
     // POST like
-    // GET likes
+    let url = '/course/' + courseId + '/like'
+    fetch(url, {
+      method: 'POST'
+    })
+
+    // GET courses (should be updated with the new like)
+    //this.getCourses()
   }
 
   render() {
