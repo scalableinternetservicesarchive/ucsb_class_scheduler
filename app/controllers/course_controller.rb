@@ -1,4 +1,6 @@
 class CourseController < ApplicationController
+	before_action :authenticate_user, only: [:like, :comment]
+
 	def all
 		find_courses_sql = <<-SQL
 			SELECT courses.*, COALESCE(SUM(likes.amount), 0) as likes
