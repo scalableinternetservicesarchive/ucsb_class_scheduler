@@ -103,9 +103,8 @@ class App extends Component {
     fetch(url, {
       method: 'POST'
     })
-
     // GET courses (should be updated with the new like)
-    //this.getCourses()
+    .then(this.getCourses)
   }
 
   render() {
