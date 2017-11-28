@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116044020) do
+ActiveRecord::Schema.define(version: 20171128211752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comment_likes", force: :cascade do |t|
+    t.integer "amount", default: 0, null: false
+    t.bigint "comment_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id", "user_id"], name: "index_comment_likes_on_comment_id_and_user_id", unique: true
+    t.index ["comment_id"], name: "index_comment_likes_on_comment_id"
+    t.index ["user_id"], name: "index_comment_likes_on_user_id"
+  end
 
   create_table "comments", force: :cascade do |t|
     t.text "content", default: "", null: false
@@ -21,8 +32,21 @@ ActiveRecord::Schema.define(version: 20171116044020) do
     t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_id"
     t.index ["course_id"], name: "index_comments_on_course_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "course_likes", force: :cascade do |t|
+    t.integer "amount", default: 0, null: false
+    t.bigint "course_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "user_id"], name: "index_course_likes_on_course_id_and_user_id", unique: true
+    t.index ["course_id"], name: "index_course_likes_on_course_id"
+    t.index ["user_id"], name: "index_course_likes_on_user_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -43,17 +67,6 @@ ActiveRecord::Schema.define(version: 20171116044020) do
     t.string "rmp_url"
   end
 
-  create_table "likes", force: :cascade do |t|
-    t.integer "amount", default: 0, null: false
-    t.bigint "course_id"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["course_id", "user_id"], name: "index_likes_on_course_id_and_user_id", unique: true
-    t.index ["course_id"], name: "index_likes_on_course_id"
-    t.index ["user_id"], name: "index_likes_on_user_id"
-  end
-
   create_table "periods", id: false, force: :cascade do |t|
     t.time "start_time"
     t.time "end_time"
@@ -72,9 +85,12 @@ ActiveRecord::Schema.define(version: 20171116044020) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "comment_likes", "comments"
+  add_foreign_key "comment_likes", "users"
+  add_foreign_key "comments", "comments", column: "parent_id"
   add_foreign_key "comments", "courses"
   add_foreign_key "comments", "users"
+  add_foreign_key "course_likes", "courses"
+  add_foreign_key "course_likes", "users"
   add_foreign_key "courses", "instructors"
-  add_foreign_key "likes", "courses"
-  add_foreign_key "likes", "users"
 end

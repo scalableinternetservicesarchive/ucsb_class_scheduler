@@ -3,8 +3,8 @@ class CourseController < ApplicationController
 
 	def all
 		find_courses_sql = <<-SQL
-			SELECT courses.*, COALESCE(SUM(likes.amount), 0) as likes
-			FROM courses LEFT JOIN likes ON likes.course_id = courses.id
+			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
+			FROM courses LEFT JOIN course_likes ON course_likes.course_id = courses.id
 			GROUP BY courses.id;
 		SQL
 
@@ -13,10 +13,12 @@ class CourseController < ApplicationController
 	end
 
 	def like
-		@like = Like.find_or_create_by(user: current_user, course_id: params[:id])
+		@like = CourseLike.find_or_create_by(user: current_user, course_id: params[:id])
 		@like.amount += 1
 		@like.save!
 		render json: @like
+	rescue ActiveRecord::RecordNotFound, ActiveRecord::InvalidForeignKey, ActiveRecord::RecordInvalid
+		render json: { status: 'failed' }, status: 500
 	end
 
 	def comment
@@ -25,7 +27,7 @@ class CourseController < ApplicationController
 		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content])
 
 		render json: @comment
-	rescue ActiveRecord::RecordNotFound
+	rescue ActiveRecord::RecordNotFound, ActiveRecord::InvalidForeignKey, ActiveRecord::RecordInvalid
 		render json: { status: 'failed' }, status: 500
 	end
 
