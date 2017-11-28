@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
 	get 'course/all', to: 'course#all'
 	get 'course/preview', to: 'course#preview'
+	get 'course/filter', to: 'course#filter'
 	get 'course/:id', to: 'course#show'
 	post 'course/:id/like', to: 'course#like'
 	post 'course/:id/comment', to: 'course#comment'
