@@ -17,6 +17,10 @@ class CourseController < ApplicationController
 		@like.amount += 1
 		@like.save!
 		render json: @like
+	rescue ActiveRecord::RecordNotFound
+	rescue ActiveRecord::InvalidForeignKey
+	rescue ActiveRecord::RecordInvalid
+		render json: { status: 'failed' }, status: 500
 	end
 
 	def comment
