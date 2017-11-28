@@ -21,11 +21,13 @@ class CourseController < ApplicationController
 
 	def comment
 		course = Course.find(params[:id])
+		parent_id = params[:parent_id]
 		user = current_user
-		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content])
+		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content], parent_id: parent_id)
 
 		render json: @comment
 	rescue ActiveRecord::RecordNotFound
+	rescue ActiveRecord::InvalidForeignKey
 		render json: { status: 'failed' }, status: 500
 	end
 
