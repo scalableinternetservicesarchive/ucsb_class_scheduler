@@ -1,4 +1,4 @@
-class Like < ApplicationRecord
+class CourseLike < ApplicationRecord
 	belongs_to :course
 	belongs_to :user
 
