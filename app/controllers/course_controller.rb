@@ -17,21 +17,17 @@ class CourseController < ApplicationController
 		@like.amount += 1
 		@like.save!
 		render json: @like
-	rescue ActiveRecord::RecordNotFound
-	rescue ActiveRecord::InvalidForeignKey
-	rescue ActiveRecord::RecordInvalid
+	rescue ActiveRecord::RecordNotFound, ActiveRecord::InvalidForeignKey, ActiveRecord::RecordInvalid
 		render json: { status: 'failed' }, status: 500
 	end
 
 	def comment
 		course = Course.find(params[:id])
-		parent_id = params[:parent_id]
 		user = current_user
-		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content], parent_id: parent_id)
+		@comment = Comment.create!(course_id: course.id, user_id: user.id, content: params[:content])
 
 		render json: @comment
-	rescue ActiveRecord::RecordNotFound
-	rescue ActiveRecord::InvalidForeignKey
+	rescue ActiveRecord::RecordNotFound, ActiveRecord::InvalidForeignKey, ActiveRecord::RecordInvalid
 		render json: { status: 'failed' }, status: 500
 	end
 

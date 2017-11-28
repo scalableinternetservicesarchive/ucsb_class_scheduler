@@ -4,10 +4,19 @@ class CommentController < ApplicationController
 		@like.amount += 1
 		@like.save!
 		render json: @like
+	rescue ActiveRecord::RecordNotFound, ActiveRecord::InvalidForeignKey, ActiveRecord::RecordInvalid
+		render json: { status: 'failed' }, status: 500
+	end
 
-	rescue ActiveRecord::RecordNotFound
-	rescue ActiveRecord::InvalidForeignKey
-	rescue ActiveRecord::RecordInvalid
+	def reply
+		comment = Comment.find(params[:id])
+		parent_id = params[:id]
+
+		user = current_user
+		@comment = Comment.create!(course_id: comment.course_id, user_id: user.id, content: params[:content], parent_id: parent_id)
+
+		render json: @comment
+	rescue ActiveRecord::RecordNotFound, ActiveRecord::InvalidForeignKey, ActiveRecord::RecordInvalid
 		render json: { status: 'failed' }, status: 500
 	end
 end
