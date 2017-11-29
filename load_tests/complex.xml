@@ -62,21 +62,52 @@
   </options>
 
   <sessions>
-    <session name="like-comment" probability="100" type="ts_http">
+    <session name="sign-up" probability="20" type="ts_http">
+      <!-- 1. Create user -->
       <setdynvars sourcetype="random_string" length="15">
-        <!-- random (valid) commenter id -->
-        <var name="user_id" />
+        <var name="email" />
       </setdynvars>
-      <setdynvars sourcetype="random_string" length="">
-        <!-- random (valid) comment id -->
-        <var name="comment_id" />
+      <setdynvars sourcetype="random_string" length="10">
+       <var name="password" />
       </setdynvars>
 
-      <!-- Log in first to create a comment as a user? -->
+      <request>
+        <dyn_variable name="user_token"></dyn_variable>
+        <http url='/user/create' version='1.1' method='POST'
+          contents="email=%%_email%%@gmail.com&amp;password=%%_password%%">
+        </http>
+      </request>
 
+      <!-- 2. Log in and add user_token to header (auto redirect, so no thinktime) -->
+      <request>
+        <http url='/user_token' version='1.1' method='GET'
+          contents="user_token=%%_user_token%%">
+        </http>
+      </request>
+
+      <thinktime value="6" random="true"></thinktime>
+
+      <!-- 3. Comment on course -->
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 4. Like course -->
       <request>
         <http url='/course/%%_course_id%%/like' version='1.1' method='POST'></http>
       </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 5. Like random comment -->
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 6. Like random comment -->
+
+    </session>
+
+    <session name="login" probability="80" type="ts_http">
+      <!-- 1. Log in with valid user -->
     </session>
 
   </sessions>
