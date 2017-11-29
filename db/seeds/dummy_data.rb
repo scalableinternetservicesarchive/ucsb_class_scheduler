@@ -25,34 +25,30 @@ end
 
 instructors = Instructor.all.map { |instr| instr.id }
 
-insert_query_row_limit = ENV["QUERY_LIMIT"] ? ENV["QUERY_LIMIT"].to_i : 10000
+ActiveRecord::Base.transaction do
+	departments.each do |dept|
+		10.times do
+			p "Starting sql query..."
+			course_partition = []
+			100000.times do
+				units = 2
+				grading_opts = "Optional"
+				is_graduate_course = true
+				max_class_size = 20
+				name = Faker::Educator.course
 
-if Course.count < 81 * 10 * insert_query_row_limit / 2
-	ActiveRecord::Base.transaction do
-		departments.each do |dept|
-			10.times do
-				p "Starting sql query..."
-				course_partition = []
-				insert_query_row_limit.times do
-					units = 2
-					grading_opts = "Optional"
-					is_graduate_course = true
-					max_class_size = 20
-					name = Faker::Educator.course
-
-					description = Faker::Company.bs
-					course_no = Faker::Lorem.characters(16)
-					instructor = instructors.sample
-					course_partition.push("('#{dept}','#{units}', '#{grading_opts}', '#{is_graduate_course}', '#{max_class_size}', '#{name}', '#{description}', '#{course_no}', '#{instructor}')")
-				end
-				course_sql = <<-SQL
-					INSERT INTO courses
-					(dept, units, grading_opts, is_graduate_course, max_class_size, name, description, course_no, instructor_id)
-					VALUES #{course_partition.join(", ")}
-					ON CONFLICT DO NOTHING
-				SQL
-				ActiveRecord::Base.connection.execute(course_sql)
+				description = Faker::Company.bs
+				course_no = Faker::Lorem.characters(16)
+				instructor = instructors.sample
+				course_partition.push("('#{dept}','#{units}', '#{grading_opts}', '#{is_graduate_course}', '#{max_class_size}', '#{name}', '#{description}', '#{course_no}', '#{instructor}')")
 			end
+			course_sql = <<-SQL
+				INSERT INTO courses
+				(dept, units, grading_opts, is_graduate_course, max_class_size, name, description, course_no, instructor_id)
+				VALUES #{course_partition.join(", ")}
+				ON CONFLICT DO NOTHING
+			SQL
+			ActiveRecord::Base.connection.execute(course_sql)
 		end
 	end
 end
