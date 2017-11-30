@@ -4,51 +4,33 @@
 
   <!-- Client side setup -->
   <clients>
-    <client host="localhost" use_controller_vm="true" maxusers='15000'/>
+    <client host="localhost" use_controller_vm="true" maxusers='30000'/>
   </clients>
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-class-scheduler-get-all-courses.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="www.ucsb-class-scheduler-tsung.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
   <load>
     <arrivalphase phase="1" duration="30" unit="second">
-      <users arrivalrate="64" unit="second"></users>
+      <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="2" duration="30" unit="second">
-      <users arrivalrate="128" unit="second"></users>
+      <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="3" duration="30" unit="second">
-      <users arrivalrate="256" unit="second"></users>
+      <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="4" duration="30" unit="second">
-      <users arrivalrate="512" unit="second"></users>
+      <users arrivalrate="8" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="5" duration="30" unit="second">
-      <users arrivalrate="1024" unit="second"></users>
+      <users arrivalrate="16" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="6" duration="30" unit="second">
-      <users arrivalrate="2048" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="7" duration="30" unit="second">
-      <users arrivalrate="4096" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="8" duration="30" unit="second">
-      <users arrivalrate="8196" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="9" duration="30" unit="second">
-      <users arrivalrate="16384" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="10" duration="30" unit="second">
-      <users arrivalrate="32768" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="11" duration="30" unit="second">
-      <users arrivalrate="65536" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="12" duration="30" unit="second">
-      <users arrivalrate="131072" unit="second"></users>
+      <users arrivalrate="32" unit="second"></users>
     </arrivalphase>
   </load>
 
@@ -62,7 +44,7 @@
   </options>
 
   <sessions>
-    <session name="http-example" probability="100" type="ts_http">
+    <session name="create-user-log-in" probability="100" type="ts_http">
       <!-- 1. Create user -->
       <setdynvars sourcetype="random_string" length="15">
         <var name="email" />
@@ -71,20 +53,19 @@
        <var name="password" />
       </setdynvars>
 
-      <request>
-        <dyn_variable name="user_token"></dyn_variable>
-        <http url='/user/create' version='1.1' method='POST'
-          contents="email=%%_email%%@gmail.com&amp;password=%%_password%%">
+      <request subst="true">
+        <http url='/user' version='1.1' method='POST' content_type="application/json"
+          contents='{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}'>
         </http>
       </request>
 
-      <!-- 2. Log in and add user_token to header (auto redirect, so no thinktime) -->
-      <request>
-        <http url='/user_token' version='1.1' method='GET'
-          contents="user_token=%%_user_token%%">
+      <!-- 2. Get token (auto redirect, so no thinktime) -->
+      <request subst="true">
+        <dyn_variable name="auth_token"></dyn_variable>
+        <http url='/user_token' version='1.1' method='POST' content_type="application/json"
+          contents='{&quot;auth&quot;:{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}}'>
         </http>
       </request>
     </session>
-
   </sessions>
 </tsung>
