@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 		private
 
 	def create_user
-		if params[:email].empty? || params[:password].empty?
+		if params[:email].nil? || params[:password].nil?
 			render json: { status: 'failed' }, status: 400
 		else
 			user = User.create!(email: params[:email], password: params[:password])
