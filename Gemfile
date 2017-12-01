@@ -59,6 +59,7 @@ end
 gem 'pg'
 gem 'bcrypt'
 gem 'knock'
+gem 'faker'
 
 gem 'email_validator'
 
