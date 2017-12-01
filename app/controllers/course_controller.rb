@@ -2,17 +2,7 @@ class CourseController < ApplicationController
 	before_action :authenticate_user, only: [:like, :comment]
 
 	def preview
-		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless params[:page].nil?
-
-		find_courses_sql = <<-SQL
-			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
-			FROM courses
-			LEFT JOIN course_likes ON course_likes.course_id = courses.id
-			GROUP BY courses.id
-			ORDER BY likes
-			LIMIT 25
-			#{offset_sql};
-		SQL
+		find_courses_sql = generate_find_courses_sql(params[:page])
 
 		@courses = ActiveRecord::Base.connection.execute(find_courses_sql)
 		render json: @courses
@@ -22,9 +12,7 @@ class CourseController < ApplicationController
 		filter_conditions = []
 		filter_conditions.push("courses.dept='#{params[:dept]}'") unless params[:dept].nil?
 
-		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless params[:page].nil?
-
-		filter_courses_sql = generate_filter_courses_sql(filter_conditions, offset_sql)
+		filter_courses_sql = generate_filter_courses_sql(filter_conditions, params[:page])
 
 		@courses = ActiveRecord::Base.connection.execute(filter_courses_sql)
 		render json: @courses
@@ -58,7 +46,23 @@ class CourseController < ApplicationController
 
 		private
 
-	def generate_filter_courses_sql(filter_conditions, offset_sql = nil)
+	def generate_preview_courses_sql(page = nil)
+		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless page.nil?
+
+		<<-SQL
+			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
+			FROM courses
+			LEFT JOIN course_likes ON course_likes.course_id = courses.id
+			GROUP BY courses.id
+			ORDER BY likes
+			LIMIT 25
+			#{offset_sql};
+		SQL
+	end
+
+	def generate_filter_courses_sql(filter_conditions, page = nil)
+		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless page.nil?
+
 		<<-SQL
 			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
 			FROM courses LEFT JOIN course_likes ON course_likes.course_id = courses.id
