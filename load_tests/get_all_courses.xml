@@ -4,14 +4,13 @@
 
   <!-- Client side setup -->
   <clients>
-    <client host="localhost" use_controller_vm="true" maxusers='15000'/>
+    <client host="localhost" use_controller_vm="true" maxusers='150000'/>
   </clients>
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-class-scheduler-get-all-courses.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="www.ucsb-class-scheduler-token2.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
-
 
   <load>
     <arrivalphase phase="1" duration="30" unit="second">
@@ -62,9 +61,9 @@
   </options>
 
   <sessions>
-    <session name="http-example" probability="100" type="ts_http">
+    <session name="get-homepage" probability="100" type="ts_http">
       <request>
-        <http url='/course/all' version='1.1' method='GET'></http>
+        <http url='/course/preview' version='1.1' method='GET'></http>
       </request>
     </session>
   </sessions>
