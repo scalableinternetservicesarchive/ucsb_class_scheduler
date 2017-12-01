@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-class-scheduler-complex2.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="www.ucsb-class-scheduler-token2.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -80,7 +80,7 @@
 
       <!-- 2. Get token (auto redirect, so no thinktime) -->
       <request subst="true">
-        <dyn_variable name="auth_token"></dyn_variable>
+        <dyn_variable name="auth_token" jsonpath="$.jwt"></dyn_variable>
         <http url='/user_token' version='1.1' method='POST' content_type="application/json"
           contents='{&quot;auth&quot;:{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}}'>
         </http>
@@ -92,22 +92,20 @@
       <setdynvars sourcetype="random_string" length="50">
         <var name="comment" />
       </setdynvars>
-      <request>
-        <http url='/course/1/comment' version='1.1' method='POST' contents='{&quot;content&quot;:&quot;%%_comment%%&quot;}'>
-          <http_header name="Authorization" value="%%_auth_token"/>
+      <request subst="true">
+        <http url='/course/1/comment' version='1.1' method='POST' content_type="application/json" contents='{&quot;content&quot;:&quot;%%_comment%%&quot;}'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
 
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 4. Like course -->
-      <request>
+      <request subst="true">
         <http url='/course/1/like' version='1.1' method='POST'>
-          <http_header name="Authorization" value="%%_auth_token"/>
+          <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
-
-      <thinktime value="4" random="true"></thinktime>
 
     </session>
 
