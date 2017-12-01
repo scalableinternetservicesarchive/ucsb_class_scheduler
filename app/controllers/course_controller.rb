@@ -9,6 +9,7 @@ class CourseController < ApplicationController
 			FROM courses
 			LEFT JOIN course_likes ON course_likes.course_id = courses.id
 			GROUP BY courses.id
+			ORDER BY likes
 			LIMIT 25
 			#{offset_sql};
 		SQL
