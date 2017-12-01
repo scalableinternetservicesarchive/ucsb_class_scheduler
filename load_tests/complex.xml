@@ -89,11 +89,14 @@
       <thinktime value="6" random="true"></thinktime>
 
       <!-- 3. Comment on course -->
+      <setdynvars sourcetype="random_number" start="1" end="80000">
+        <var name="comment1" />
+      </setdynvars>
       <setdynvars sourcetype="random_string" length="50">
         <var name="comment" />
       </setdynvars>
       <request subst="true">
-        <http url='/course/1/comment' version='1.1' method='POST' content_type="application/json" contents='{&quot;content&quot;:&quot;%%_comment%%&quot;}'>
+        <http url='/course/%%_comment1%%/comment' version='1.1' method='POST' content_type="application/json" contents='{&quot;content&quot;:&quot;%%_comment%%&quot;}'>
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
