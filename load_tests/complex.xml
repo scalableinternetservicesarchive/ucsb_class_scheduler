@@ -114,6 +114,8 @@
         </http>
       </request>
 
+      <thinktime value="4" random="true"></thinktime>
+
       <!-- 5. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="80000">
         <var name="like2" />
@@ -124,6 +126,8 @@
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
+
+      <thinktime value="4" random="true"></thinktime>
 
       <!-- 6. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="80000">
