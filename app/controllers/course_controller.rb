@@ -22,7 +22,9 @@ class CourseController < ApplicationController
 		filter_conditions = []
 		filter_conditions.push("courses.dept='#{params[:dept]}'") unless params[:dept].nil?
 
-		filter_courses_sql = generate_filter_courses_sql(filter_conditions)
+		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless params[:page].nil?
+
+		filter_courses_sql = generate_filter_courses_sql(filter_conditions, offset_sql)
 
 		@courses = ActiveRecord::Base.connection.execute(filter_courses_sql)
 		render json: @courses
@@ -56,13 +58,14 @@ class CourseController < ApplicationController
 
 		private
 
-	def generate_filter_courses_sql(filter_conditions)
+	def generate_filter_courses_sql(filter_conditions, offset_sql = nil)
 		<<-SQL
 			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
 			FROM courses LEFT JOIN course_likes ON course_likes.course_id = courses.id
 			#{'WHERE ' + filter_conditions.join(' AND ') if filter_conditions.present?}
 			GROUP BY courses.id
-			LIMIT 100;
+			LIMIT 25
+			#{offset_sql};
 		SQL
 	end
 end
