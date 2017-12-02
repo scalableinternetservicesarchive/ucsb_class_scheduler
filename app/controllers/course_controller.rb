@@ -17,7 +17,10 @@ class CourseController < ApplicationController
 
 		filter_courses_sql = generate_filter_courses_sql(filter_conditions, params[:page])
 
-		@courses = ActiveRecord::Base.connection.execute(filter_courses_sql)
+		@courses = Rails.cache.fetch("filter/#{filter_conditions}/#{params[:page]}", expires_in: 5.minutes) do
+			ActiveRecord::Base.connection.execute(filter_courses_sql).to_a
+		end
+
 		render json: @courses
 	end
 
