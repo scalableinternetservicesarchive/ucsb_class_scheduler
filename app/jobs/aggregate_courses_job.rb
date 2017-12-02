@@ -9,7 +9,6 @@ class AggregateCoursesJob < ApplicationJob
 			safe_replace_table(temp_table_name) do
 				ActiveRecord::Base.connection.execute(generate_temp_table_sql(temp_table_name + '_new'))
 			end
-			ActiveRecord::Base.connection.execute(generate_index_sql(temp_table_name, Time.now.to_formatted_s(:number)))
 		end
 		Rails.logger.info "aggregate courses job started"
 	end
@@ -18,6 +17,7 @@ class AggregateCoursesJob < ApplicationJob
 
 	def safe_replace_table(temp_table_name)
 		yield
+		ActiveRecord::Base.connection.execute(generate_index_sql(temp_table_name + '_new', Time.now.to_formatted_s(:number)))
 		ActiveRecord::Base.connection.execute(alter_table_if_exists(temp_table_name))
 		ActiveRecord::Base.connection.execute(rename_table(temp_table_name + '_new', temp_table_name))
 		ActiveRecord::Base.connection.execute(drop_table_if_exists(temp_table_name + '_old'))
@@ -70,7 +70,7 @@ class AggregateCoursesJob < ApplicationJob
 
 	def instructor_dept_course_index(table_name, timestamp)
 		<<-SQL
-			CREATE UNIQUE INDEX index_courses_on_instructor_id_and_dept_and_course_no_#{timestamp}
+			CREATE UNIQUE INDEX index_courses_on_instr_id_dept_course_#{timestamp}
 	    	ON "#{table_name}" USING btree (instructor_id, dept, course_no);
 		SQL
 	end
