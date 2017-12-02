@@ -4,7 +4,10 @@ class CourseController < ApplicationController
 	def preview
 		preview_courses_sql = generate_preview_courses_sql(params[:page])
 
-		@courses = ActiveRecord::Base.connection.execute(preview_courses_sql)
+		@courses = Rails.cache.fetch("preview/#{params[:page]}", expires_in: 5.minutes) do
+			ActiveRecord::Base.connection.execute(preview_courses_sql).to_a
+		end
+
 		render json: @courses
 	end
 
