@@ -2,9 +2,9 @@ class CourseController < ApplicationController
 	before_action :authenticate_user, only: [:like, :comment]
 
 	def preview
-		find_courses_sql = generate_find_courses_sql(params[:page])
+		preview_courses_sql = generate_preview_courses_sql(params[:page])
 
-		@courses = ActiveRecord::Base.connection.execute(find_courses_sql)
+		@courses = ActiveRecord::Base.connection.execute(preview_courses_sql)
 		render json: @courses
 	end
 
