@@ -47,10 +47,16 @@ class CourseController < ApplicationController
 		private
 
 	def generate_preview_courses_sql(page = nil)
+		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless page.nil?
+
 		<<-SQL
-      SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes		 
-      FROM courses LEFT JOIN course_likes ON course_likes.course_id = courses.id
-      GROUP BY courses.id;
+			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
+			FROM courses
+			LEFT JOIN course_likes ON course_likes.course_id = courses.id
+			GROUP BY courses.id
+			ORDER BY likes
+			LIMIT 25
+			#{offset_sql};
 		SQL
 	end
 
