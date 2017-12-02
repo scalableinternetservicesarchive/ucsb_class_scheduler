@@ -4,12 +4,12 @@
 
   <!-- Client side setup -->
   <clients>
-    <client host="localhost" use_controller_vm="true" maxusers='30000'/>
+    <client host="localhost" use_controller_vm="true" maxusers='300000'/>
   </clients>
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-class-scheduler-token2.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="www.ucsb-get-homepage-t2-2xlarge.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -44,6 +44,12 @@
     <arrivalphase phase="10" duration="30" unit="second">
       <users arrivalrate="512" unit="second"></users>
     </arrivalphase>
+    <arrivalphase phase="11" duration="30" unit="second">
+      <users arrivalrate="1024" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="12" duration="30" unit="second">
+      <users arrivalrate="2048" unit="second"></users>
+    </arrivalphase>
   </load>
 
   <options>
@@ -56,10 +62,14 @@
   </options>
 
   <sessions>
-    <session name="sign-up" probability="100" type="ts_http">
+
+    <session name="first_page" probability="50" type="ts_http">
       <!-- 0. Go to homepage -->
       <request>
-        <http url='/course/preview' version='1.1' method='GET'></http>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+      <request>
+        <http url='/course/preview?page=1' version='1.1' method='GET'></http>
       </request>
 
       <thinktime value="4" random="true"></thinktime>
@@ -86,13 +96,16 @@
         </http>
       </request>
 
-      <thinktime value="6" random="true"></thinktime>
+      <thinktime value="4" random="true"></thinktime>
 
       <!-- 3. Comment on course -->
-      <setdynvars sourcetype="random_number" start="1" end="80000">
+      <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="comment1" />
       </setdynvars>
-      <setdynvars sourcetype="random_string" length="50">
+      <setdynvars sourcetype="random_number" start="50" end="400">
+        <var name="comment_length" />
+      </setdynvars>
+      <setdynvars sourcetype="random_string" length="%%_comment_length%%">
         <var name="comment" />
       </setdynvars>
       <request subst="true">
@@ -104,7 +117,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 4. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="80000">
+      <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like1" />
       </setdynvars>
 
@@ -117,7 +130,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 5. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="80000">
+      <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like2" />
       </setdynvars>
 
@@ -130,7 +143,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 6. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="80000">
+      <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like3" />
       </setdynvars>
 
@@ -139,7 +152,236 @@
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
+    </session>
 
+
+    <session name="multiple_pages" probability="40" type="ts_http">
+      <!-- 0. Go to homepage -->
+      <request>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+      <request>
+        <http url='/course/preview?page=1' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 1. Create user -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="email" />
+      </setdynvars>
+      <setdynvars sourcetype="random_string" length="10">
+       <var name="password" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/user' version='1.1' method='POST' content_type="application/json"
+          contents='{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}'>
+        </http>
+      </request>
+
+      <!-- 2. Get token (auto redirect, so no thinktime) -->
+      <request subst="true">
+        <dyn_variable name="auth_token" jsonpath="$.jwt"></dyn_variable>
+        <http url='/user_token' version='1.1' method='POST' content_type="application/json"
+          contents='{&quot;auth&quot;:{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}}'>
+        </http>
+      </request>
+
+      <thinktime value="3" random="true"></thinktime>
+
+      <!-- 3. Go to the second page -->
+      <request>
+        <http url='/course/preview?page=2' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 4. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like1" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like1%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 5. Comment on course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="comment1" />
+      </setdynvars>
+      <setdynvars sourcetype="random_number" start="50" end="400">
+        <var name="comment_length" />
+      </setdynvars>
+      <setdynvars sourcetype="random_string" length="%%_comment_length%%">
+        <var name="comment" />
+      </setdynvars>
+      <request subst="true">
+        <http url='/course/%%_comment1%%/comment' version='1.1' method='POST' content_type="application/json" contents='{&quot;content&quot;:&quot;%%_comment%%&quot;}'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 6. Go to the third page -->
+      <request>
+        <http url='/course/preview?page=3' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="3" random="true"></thinktime>
+
+      <!-- 7. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like1" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like1%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 8. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like1" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like1%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 9. Go to the forth page -->
+      <request>
+        <http url='/course/preview?page=4' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="3" random="true"></thinktime>
+
+      <!-- 10. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like2" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like2%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 11. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like3" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like3%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+    </session>
+
+
+    <session name="random_page" probability="10" type="ts_http">
+      <!-- 0. Go to homepage -->
+      <request>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 1. Create user -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="email" />
+      </setdynvars>
+      <setdynvars sourcetype="random_string" length="10">
+       <var name="password" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/user' version='1.1' method='POST' content_type="application/json"
+          contents='{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}'>
+        </http>
+      </request>
+
+      <!-- 2. Get token (auto redirect, so no thinktime) -->
+      <request subst="true">
+        <dyn_variable name="auth_token" jsonpath="$.jwt"></dyn_variable>
+        <http url='/user_token' version='1.1' method='POST' content_type="application/json"
+          contents='{&quot;auth&quot;:{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}}'>
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 3. Go to random page -->
+      <setdynvars sourcetype="random_number" start="1" end="10">
+       <var name="random_page1" />
+      </setdynvars>
+      <request subst="true">
+        <http url='/course/preview?page=%%_random_page1%%' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="3" random="true"></thinktime>
+
+      <!-- 4. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like1" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like1%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 5. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like2" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like2%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
+
+      <thinktime value="3" random="true"></thinktime>
+
+      <!-- 5. Go to random page -->
+      <setdynvars sourcetype="random_number" start="1" end="10">
+       <var name="random_page2" />
+      </setdynvars>
+      <request subst="true">
+        <http url='/course/preview?page=%%_random_page2%%' version='1.1' method='GET'></http>
+      </request>
+
+      <thinktime value="4" random="true"></thinktime>
+
+      <!-- 6. Like course -->
+      <setdynvars sourcetype="random_number" start="1" end="8100">
+        <var name="like3" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/course/%%_like3%%/like' version='1.1' method='POST'>
+          <http_header name="Authorization" value="%%_auth_token%%" />
+        </http>
+      </request>
     </session>
 
   </sessions>
