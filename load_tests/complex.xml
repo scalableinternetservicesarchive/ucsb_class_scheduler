@@ -98,7 +98,12 @@
 
       <thinktime value="4" random="true"></thinktime>
 
-      <!-- 3. Comment on course -->
+      <!-- 3. Filter on Computer Science -->
+      <request>
+        <http url="/course/filter?dept=Computer+Science" version="1.1" method="GET"></http>
+      </request>
+
+      <!-- 4. Comment on course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="comment1" />
       </setdynvars>
@@ -116,7 +121,7 @@
 
       <thinktime value="4" random="true"></thinktime>
 
-      <!-- 4. Like course -->
+      <!-- 5. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like1" />
       </setdynvars>
@@ -129,7 +134,7 @@
 
       <thinktime value="4" random="true"></thinktime>
 
-      <!-- 5. Like course -->
+      <!-- 6. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like2" />
       </setdynvars>
@@ -142,7 +147,7 @@
 
       <thinktime value="4" random="true"></thinktime>
 
-      <!-- 6. Like course -->
+      <!-- 7. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like3" />
       </setdynvars>
@@ -268,7 +273,12 @@
 
       <thinktime value="3" random="true"></thinktime>
 
-      <!-- 10. Like course -->
+      <!-- 10. Filter on Astronomy -->
+      <request>
+        <http url="/course/filter?dept=Astronomy" version="1.1" method="GET"></http>
+      </request>
+
+      <!-- 11. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like2" />
       </setdynvars>
@@ -281,7 +291,7 @@
 
       <thinktime value="4" random="true"></thinktime>
 
-      <!-- 11. Like course -->
+      <!-- 12. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="like3" />
       </setdynvars>
