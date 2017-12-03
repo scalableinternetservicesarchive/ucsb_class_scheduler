@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 	get 'course/:id', to: 'course#show'
 	post 'course/:id/like', to: 'course#like'
 	post 'course/:id/comment', to: 'course#comment'
+  root '/'
 
 	resource :user, only: [:create]
 
