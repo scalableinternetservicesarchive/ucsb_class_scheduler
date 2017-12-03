@@ -107,10 +107,7 @@
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="comment1" />
       </setdynvars>
-      <setdynvars sourcetype="random_number" start="50" end="400">
-        <var name="comment_length" />
-      </setdynvars>
-      <setdynvars sourcetype="random_string" length="%%_comment_length%%">
+      <setdynvars sourcetype="random_string" length="150">
         <var name="comment" />
       </setdynvars>
       <request subst="true">
@@ -219,10 +216,7 @@
       <setdynvars sourcetype="random_number" start="1" end="8100">
         <var name="comment1" />
       </setdynvars>
-      <setdynvars sourcetype="random_number" start="50" end="400">
-        <var name="comment_length" />
-      </setdynvars>
-      <setdynvars sourcetype="random_string" length="%%_comment_length%%">
+      <setdynvars sourcetype="random_string" length="150">
         <var name="comment" />
       </setdynvars>
       <request subst="true">
