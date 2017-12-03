@@ -17,9 +17,9 @@ module UcsbClassScheduler
 		# -- all .rb files in that directory are automatically loaded.
 
 		config.after_initialize do
-			if ENV["MASTER_PROC"] == "true"
+			if ENV['MASTER_PROC'] == 'true'
 				AggregateCoursesJob.perform_now
-				exec("MASTER_PROC=false bundle exec clockwork lib/clock.rb") if fork.nil?
+				exec('MASTER_PROC=false bundle exec clockwork lib/clock.rb') if fork.nil?
 			end
 		end
 	end

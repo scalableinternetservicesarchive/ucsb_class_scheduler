@@ -15,6 +15,7 @@ class AggregateCoursesJob < ApplicationJob
 		ActiveRecord::Base.transaction do
 			safe_replace_table(temp_table_name) do
 				ActiveRecord::Base.connection.execute(generate_temp_table_sql(temp_table_name + '_new'))
+				ActiveRecord::Base.connection.execute(generate_index_sql(temp_table_name + '_new', Time.zone.now.to_formatted_s(:number)))
 			end
 		end
 	end
@@ -23,7 +24,6 @@ class AggregateCoursesJob < ApplicationJob
 
 	def safe_replace_table(temp_table_name)
 		yield
-		ActiveRecord::Base.connection.execute(generate_index_sql(temp_table_name + '_new', Time.now.to_formatted_s(:number)))
 		ActiveRecord::Base.connection.execute(alter_table_if_exists(temp_table_name))
 		ActiveRecord::Base.connection.execute(rename_table(temp_table_name + '_new', temp_table_name))
 		ActiveRecord::Base.connection.execute(drop_table_if_exists(temp_table_name + '_old'))
@@ -32,20 +32,20 @@ class AggregateCoursesJob < ApplicationJob
 	def rename_table(old_table_name, new_table_name)
 		<<-SQL
 			ALTER TABLE "#{old_table_name}"
-			RENAME TO "#{new_table_name}"
+			RENAME TO "#{new_table_name}";
 		SQL
 	end
 
 	def alter_table_if_exists(table_name)
 		<<-SQL
 			ALTER TABLE IF EXISTS "#{table_name}"
-			RENAME TO "#{table_name + '_old'}"
+			RENAME TO "#{table_name + '_old'}";
 		SQL
 	end
 
 	def drop_table_if_exists(table_name)
 		<<-SQL
-			DROP TABLE IF EXISTS "#{table_name}"
+			DROP TABLE IF EXISTS "#{table_name}";
 		SQL
 	end
 
@@ -55,7 +55,7 @@ class AggregateCoursesJob < ApplicationJob
 			AS SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
 			FROM courses
 			LEFT JOIN course_likes ON course_likes.course_id = courses.id
-			GROUP BY courses.id
+			GROUP BY courses.id;
 		SQL
 	end
 

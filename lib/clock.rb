@@ -5,5 +5,5 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'clockwork'
 include Clockwork
 
-handler { |job| p job }
+handler { |job| Rails.logger.info job }
 every(1.minute, 'AggregateCourses.job') { AggregateCoursesJob.perform_later }
