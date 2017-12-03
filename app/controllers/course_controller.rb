@@ -68,6 +68,7 @@ class CourseController < ApplicationController
 			FROM courses LEFT JOIN course_likes ON course_likes.course_id = courses.id
 			#{'WHERE ' + filter_conditions.join(' AND ') if filter_conditions.present?}
 			GROUP BY courses.id
+			ORDER BY likes
 			LIMIT 25
 			#{offset_sql};
 		SQL
