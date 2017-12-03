@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-get-homepage-t2-2xlarge.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="www.ucsb-complex.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -242,11 +242,11 @@
 
       <!-- 7. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
-        <var name="like1" />
+        <var name="like2" />
       </setdynvars>
 
       <request subst="true">
-        <http url='/course/%%_like1%%/like' version='1.1' method='POST'>
+        <http url='/course/%%_like2%%/like' version='1.1' method='POST'>
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
@@ -255,11 +255,11 @@
 
       <!-- 8. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
-        <var name="like1" />
+        <var name="like3" />
       </setdynvars>
 
       <request subst="true">
-        <http url='/course/%%_like1%%/like' version='1.1' method='POST'>
+        <http url='/course/%%_like3%%/like' version='1.1' method='POST'>
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
@@ -280,11 +280,11 @@
 
       <!-- 11. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
-        <var name="like2" />
+        <var name="like4" />
       </setdynvars>
 
       <request subst="true">
-        <http url='/course/%%_like2%%/like' version='1.1' method='POST'>
+        <http url='/course/%%_like4%%/like' version='1.1' method='POST'>
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
@@ -293,11 +293,11 @@
 
       <!-- 12. Like course -->
       <setdynvars sourcetype="random_number" start="1" end="8100">
-        <var name="like3" />
+        <var name="like5" />
       </setdynvars>
 
       <request subst="true">
-        <http url='/course/%%_like3%%/like' version='1.1' method='POST'>
+        <http url='/course/%%_like5%%/like' version='1.1' method='POST'>
           <http_header name="Authorization" value="%%_auth_token%%" />
         </http>
       </request>
