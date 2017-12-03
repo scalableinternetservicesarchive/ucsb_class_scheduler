@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 	get 'course/:id', to: 'course#show'
 	post 'course/:id/like', to: 'course#like'
 	post 'course/:id/comment', to: 'course#comment'
-  root 'application#fallback_index_html'
+
 	resource :user, only: [:create]
 
 	get '*path', to: 'application#fallback_index_html', constraints: lambda { |request|
