@@ -4,17 +4,21 @@ class CourseController < ApplicationController
 	def preview
 		preview_courses_sql = generate_preview_courses_sql(params[:page])
 
-		@courses = ActiveRecord::Base.connection.execute(preview_courses_sql)
+		@courses = Rails.cache.fetch("preview/#{params[:page]}", expires_in: 5.minutes) do
+			ActiveRecord::Base.connection.execute(preview_courses_sql).to_a
+		end
+
 		render json: @courses
 	end
 
 	def filter
-		filter_conditions = []
-		filter_conditions.push("courses.dept='#{params[:dept]}'") unless params[:dept].nil?
-
+		filter_conditions = generate_filter_conditions(params)
 		filter_courses_sql = generate_filter_courses_sql(filter_conditions, params[:page])
 
-		@courses = ActiveRecord::Base.connection.execute(filter_courses_sql)
+		@courses = Rails.cache.fetch("filter/#{filter_conditions}/#{params[:page]}", expires_in: 5.minutes) do
+			ActiveRecord::Base.connection.execute(filter_courses_sql).to_a
+		end
+
 		render json: @courses
 	end
 
@@ -45,6 +49,12 @@ class CourseController < ApplicationController
 	end
 
 		private
+
+	def generate_filter_conditions(filters)
+		filter_conditions = []
+		filter_conditions.push("courses.dept='#{params[:dept]}'") unless filters[:dept].nil?
+		filter_conditions
+	end
 
 	def generate_preview_courses_sql(page = nil)
 		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless page.nil?
