@@ -6,4 +6,6 @@ require 'clockwork'
 include Clockwork
 
 handler { |job| Rails.logger.info job }
-every(1.minute, 'AggregateCourses.job') { AggregateCoursesJob.perform_later }
+
+aggregate_repeat = ENV['AGGREGATE_REPEAT'] ? ENV['AGGREGATE_REPEAT'].to_i.minutes : 1.minute
+every(aggregate_repeat, 'AggregateCourses.job') { AggregateCoursesJob.perform_later }
