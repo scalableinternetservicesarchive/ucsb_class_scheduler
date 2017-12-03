@@ -1,8 +1,15 @@
 class AggregateCoursesJob < ApplicationJob
 	queue_as :default
 
+	before_perform do
+		Rails.logger.info 'AggregateCourses job started'
+	end
+
+	after_perform do
+		Rails.logger.info 'AggregateCourses job finished'
+	end
+
 	def perform(*)
-		Rails.logger.info "aggregate courses job started"
 		temp_table_name = 'course_likes_temp'
 
 		ActiveRecord::Base.transaction do
@@ -10,7 +17,6 @@ class AggregateCoursesJob < ApplicationJob
 				ActiveRecord::Base.connection.execute(generate_temp_table_sql(temp_table_name + '_new'))
 			end
 		end
-		Rails.logger.info "aggregate courses job started"
 	end
 
 		private
