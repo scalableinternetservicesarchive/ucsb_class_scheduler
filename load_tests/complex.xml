@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-complex.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="www.ucsb-after-caching-m4-10xlarge.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -28,6 +28,15 @@
     </arrivalphase>
     <arrivalphase phase="5" duration="30" unit="second">
       <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="30" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="7" duration="30" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="30" unit="second">
+      <users arrivalrate="128" unit="second"></users>
     </arrivalphase>
   </load>
 
@@ -281,6 +290,9 @@
       <!-- 0. Go to homepage -->
       <request>
         <http url='/' version='1.1' method='GET'></http>
+      </request>
+      <request>
+        <http url='/course/preview?page=1' version='1.1' method='GET'></http>
       </request>
 
       <thinktime value="4" random="true"></thinktime>
