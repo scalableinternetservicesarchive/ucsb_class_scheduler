@@ -1,3 +1,5 @@
+Rails.logger.level = :warn
+
 require "set"
 require "json"
 require "faker"

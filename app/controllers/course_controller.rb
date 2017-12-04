@@ -52,7 +52,7 @@ class CourseController < ApplicationController
 
 	def generate_filter_conditions(filters)
 		filter_conditions = []
-		filter_conditions.push("courses.dept='#{params[:dept]}'") unless filters[:dept].nil?
+		filter_conditions.push("dept='#{params[:dept]}'") unless filters[:dept].nil?
 		filter_conditions
 	end
 
@@ -60,10 +60,8 @@ class CourseController < ApplicationController
 		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless page.nil?
 
 		<<-SQL
-			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
-			FROM courses
-			LEFT JOIN course_likes ON course_likes.course_id = courses.id
-			GROUP BY courses.id
+			SELECT *
+			FROM course_likes_temp
 			ORDER BY likes DESC
 			LIMIT 25
 			#{offset_sql};
@@ -74,10 +72,9 @@ class CourseController < ApplicationController
 		offset_sql = "OFFSET #{25 * params[:page].to_i}" unless page.nil?
 
 		<<-SQL
-			SELECT courses.*, COALESCE(SUM(course_likes.amount), 0) as likes
-			FROM courses LEFT JOIN course_likes ON course_likes.course_id = courses.id
+			SELECT *
+			FROM course_likes_temp
 			#{'WHERE ' + filter_conditions.join(' AND ') if filter_conditions.present?}
-			GROUP BY courses.id
 			ORDER BY likes DESC
 			LIMIT 25
 			#{offset_sql};

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128211752) do
+ActiveRecord::Schema.define(version: 20171203042156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,20 @@ ActiveRecord::Schema.define(version: 20171128211752) do
     t.index ["course_id", "user_id"], name: "index_course_likes_on_course_id_and_user_id", unique: true
     t.index ["course_id"], name: "index_course_likes_on_course_id"
     t.index ["user_id"], name: "index_course_likes_on_user_id"
+  end
+
+  create_table "course_likes_temp", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "dept"
+    t.string "course_no"
+    t.text "description"
+    t.integer "units"
+    t.string "grading_opts"
+    t.integer "max_class_size"
+    t.string "instructor_id"
+    t.boolean "is_graduate_course"
+    t.string "name"
+    t.integer "likes"
   end
 
   create_table "courses", force: :cascade do |t|

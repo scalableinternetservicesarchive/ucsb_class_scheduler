@@ -56,6 +56,9 @@ GEM
       xpath (~> 2.0)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
+    clockwork (2.0.2)
+      activesupport
+      tzinfo
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -65,6 +68,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     crass (1.0.2)
+    dotenv (2.2.1)
     email_validator (1.6.0)
       activemodel
     erubi (1.7.0)
@@ -217,7 +221,9 @@ DEPENDENCIES
   bcrypt
   byebug
   capybara (~> 2.13)
+  clockwork
   coffee-rails (~> 4.2)
+  dotenv
   email_validator
   faker
   jbuilder (~> 2.5)
