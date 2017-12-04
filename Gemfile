@@ -61,6 +61,7 @@ gem 'bcrypt'
 gem 'knock'
 gem 'faker'
 gem 'clockwork'
+gem 'dotenv'
 
 gem 'email_validator'
 

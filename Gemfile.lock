@@ -68,6 +68,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     crass (1.0.2)
+    dotenv (2.2.1)
     email_validator (1.6.0)
       activemodel
     erubi (1.7.0)
@@ -222,6 +223,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   clockwork
   coffee-rails (~> 4.2)
+  dotenv
   email_validator
   faker
   jbuilder (~> 2.5)
