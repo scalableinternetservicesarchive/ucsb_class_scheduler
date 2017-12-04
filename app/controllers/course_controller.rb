@@ -4,7 +4,7 @@ class CourseController < ApplicationController
 	def preview
 		preview_courses_sql = generate_preview_courses_sql(params[:page])
 
-		@courses = Rails.cache.fetch("preview/#{params[:page]}", expires_in: 5.minutes) do
+		@courses = Rails.cache.fetch("preview/#{params[:page]}", expires_in: 15.seconds) do
 			ActiveRecord::Base.connection.execute(preview_courses_sql).to_a
 		end
 
@@ -15,7 +15,7 @@ class CourseController < ApplicationController
 		filter_conditions = generate_filter_conditions(params)
 		filter_courses_sql = generate_filter_courses_sql(filter_conditions, params[:page])
 
-		@courses = Rails.cache.fetch("filter/#{filter_conditions}/#{params[:page]}", expires_in: 5.minutes) do
+		@courses = Rails.cache.fetch("filter/#{filter_conditions}/#{params[:page]}", expires_in: 15.seconds) do
 			ActiveRecord::Base.connection.execute(filter_courses_sql).to_a
 		end
 
