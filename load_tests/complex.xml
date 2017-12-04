@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="www.ucsb-class-scheduler-token2.bdrmu4mt4q.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="ucs-e-before-3.wdwdpbbr6s.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -69,12 +69,12 @@
         <var name="email" />
       </setdynvars>
       <setdynvars sourcetype="random_string" length="10">
-       <var name="password" />
+        <var name="password" />
       </setdynvars>
 
       <request subst="true">
         <http url='/user' version='1.1' method='POST' content_type="application/json"
-          contents='{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}'>
+              contents='{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}'>
         </http>
       </request>
 
@@ -82,7 +82,7 @@
       <request subst="true">
         <dyn_variable name="auth_token" jsonpath="$.jwt"></dyn_variable>
         <http url='/user_token' version='1.1' method='POST' content_type="application/json"
-          contents='{&quot;auth&quot;:{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}}'>
+              contents='{&quot;auth&quot;:{&quot;email&quot;:&quot;%%_email%%@gmail.com&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}}'>
         </http>
       </request>
 
@@ -141,6 +141,5 @@
       </request>
 
     </session>
-
   </sessions>
 </tsung>
