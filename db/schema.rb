@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171203042156) do
+ActiveRecord::Schema.define(version: 20171205012914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,11 @@ ActiveRecord::Schema.define(version: 20171203042156) do
     t.string "instructor_id"
     t.boolean "is_graduate_course"
     t.string "name"
-    t.integer "likes"
+    t.bigint "likes"
+    t.index ["id"], name: "courses_pkey_20171204043832", unique: true
+    t.index ["instructor_id", "dept", "course_no"], name: "index_courses_on_instr_id_dept_course_20171204043832", unique: true
+    t.index ["instructor_id"], name: "index_courses_on_instructor_id_20171204043832"
+    t.index ["likes"], name: "index_courses_on_likes_20171204043832"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -91,6 +95,15 @@ ActiveRecord::Schema.define(version: 20171203042156) do
     t.index ["course_id"], name: "index_periods_on_course_id"
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "periods", default: [], array: true
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_schedules_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -107,4 +120,5 @@ ActiveRecord::Schema.define(version: 20171203042156) do
   add_foreign_key "course_likes", "courses"
   add_foreign_key "course_likes", "users"
   add_foreign_key "courses", "instructors"
+  add_foreign_key "schedules", "users"
 end
