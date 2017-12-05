@@ -110,7 +110,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 5. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like1" />
       </setdynvars>
 
@@ -123,7 +123,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 6. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like2" />
       </setdynvars>
 
@@ -136,7 +136,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 7. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like3" />
       </setdynvars>
 
@@ -192,7 +192,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 4. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like1" />
       </setdynvars>
 
@@ -205,7 +205,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 5. Comment on course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="comment1" />
       </setdynvars>
       <setdynvars sourcetype="random_string" length="150">
@@ -227,7 +227,7 @@
       <thinktime value="3" random="true"></thinktime>
 
       <!-- 7. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like2" />
       </setdynvars>
 
@@ -240,7 +240,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 8. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like3" />
       </setdynvars>
 
@@ -265,7 +265,7 @@
       </request>
 
       <!-- 11. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like4" />
       </setdynvars>
 
@@ -278,7 +278,7 @@
       <thinktime value="4" random="true"></thinktime>
 
       <!-- 12. Like course -->
-      <setdynvars sourcetype="random_number" start="1" end="8100">
+      <setdynvars sourcetype="random_number" start="1" end="810000">
         <var name="like5" />
       </setdynvars>
 
@@ -297,13 +297,13 @@
       <request>
         <http url='/course/preview?page=0' version='1.1' method='GET'></http>
       </request>
-      <setdynvars sourcetype="random_number" start="1" end="10">
+      <setdynvars sourcetype="random_number" start="1" end="32400">
         <var name="random_page2" />
       </setdynvars>
       <request subst="true">
         <http url='/course/preview?page=%%_random_page2%%' version='1.1' method='GET'></http>
       </request>
-      <setdynvars sourcetype="random_number" start="1" end="10">
+      <setdynvars sourcetype="random_number" start="1" end="32400">
         <var name="random_page22" />
       </setdynvars>
       <request subst="true">
