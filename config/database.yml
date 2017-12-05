@@ -33,4 +33,4 @@ production:
   port: <%= ENV['RDS_PORT'] %>
   username: <%= ENV['RDS_USERNAME'] %>
   password: <%= ENV['RDS_PASSWORD'] %>
-  pool: 25
+  pool: 50
