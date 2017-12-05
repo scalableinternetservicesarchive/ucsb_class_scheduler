@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 	post 'course/:id/comment', to: 'course#comment'
 
 	resource :user, only: [:create]
+	resources :schedule, except: [:new, :edit]
 
 	get '*path', to: 'application#fallback_index_html', constraints: lambda { |request|
 		!request.xhr? && request.format.html?
