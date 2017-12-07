@@ -3,8 +3,13 @@ import Search from "./Search";
 import Calendar from "./Calendar";
 import Results from "./Results";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import RaisedButton from 'material-ui/RaisedButton';
 
 import './App.css'
+
+const btnStyle = {
+  margin: 12,
+}
 
 class App extends Component {
   constructor(props) {
@@ -119,6 +124,7 @@ class App extends Component {
             moveEvent={this.moveEvent}
             deleteEvent={this.deleteEvent}
           />
+          <RaisedButton label="Save" primary={true} style={btnStyle} />
           <Search onSubmit={this.onSearchSubmit} />
           <Results
             filterTerm={term}
