@@ -1,6 +1,10 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
+const btnStyle = {
+  margin: 6,
+}
 
 export default class ConfirmDeleteDialog extends React.Component {
   state = {
@@ -22,16 +26,18 @@ export default class ConfirmDeleteDialog extends React.Component {
 
   render() {
     const actions = [
-      <FlatButton
+      <RaisedButton
         label="No"
-        primary={true}
+        primary
         onClick={this.handleClose}
+        style={btnStyle}
       />,
-      <FlatButton
+      <RaisedButton
         label="Yes"
-        primary={true}
+        secondary
         keyboardFocused={true}
         onClick={this.handleDelete}
+        style={btnStyle}
       />,
     ];
 
