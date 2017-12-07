@@ -11,6 +11,11 @@ import ConfirmDeleteDialog from '../ConfirmDeleteDialog';
 BigCalendar.momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
+let formats = {
+  dayFormat: (date, culture, localizer) =>
+    localizer.format(date, 'ddd', culture),
+}
+
 class Calendar extends Component {
   constructor(props) {
     super(props)
@@ -68,6 +73,7 @@ class Calendar extends Component {
           onSelectEvent={this.deleteDialog}
           onSelectSlot={this.saveEvent}
           onEventDrop={this.props.moveEvent}
+          formats={formats}
           toolbar={false}
         />
         {this.state.deleteDialogOpen
