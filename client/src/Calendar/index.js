@@ -68,6 +68,7 @@ class Calendar extends Component {
           onSelectEvent={this.deleteDialog}
           onSelectSlot={this.saveEvent}
           onEventDrop={this.props.moveEvent}
+          toolbar={false}
         />
         {this.state.deleteDialogOpen
           ? <ConfirmDeleteDialog onDelete={this.props.deleteEvent} />
