@@ -62,9 +62,9 @@ class Calendar extends Component {
       <div style={{width: 1000}}>
         <DragAndDropCalendar
           {...this.props}
-          defaultView="week"
+          defaultView="work_week"
           defaultDate={new Date("May 1, 2017")}
-          views={{ week: true }}
+          views={{ work_week: true }}
           step={15}
           timeslots={4}
           min={this.minHour}
