@@ -118,6 +118,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div className='App-body'>
+          <h1>UCSB Class Scheduler <i class="fa fa-calendar" aria-hidden="true"></i></h1>
           <Calendar
             events={this.state.events}
             addEvent={this.addEvent}
